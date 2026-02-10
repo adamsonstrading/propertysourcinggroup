@@ -1,0 +1,151 @@
+@extends('layouts.admin')
+
+@section('title', 'Agent Properties')
+
+@section('content')
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h2>Agent Posted Properties</h2>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
+                        <li class="breadcrumb-item active">Agent Properties</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row g-4 mb-4">
+        <div class="col-xl-3 col-md-6">
+            <div class="stats-card blue">
+                <div class="icon">
+                    <i class="bi bi-people"></i>
+                </div>
+                <h3>{{ $properties->total() }}</h3>
+                <p>Total Agent Posts</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Message -->
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="bi bi-check-circle me-2"></i>{{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    @endif
+
+    <!-- Properties Table -->
+    <div class="content-card">
+        <div class="card-header">
+            <h5><i class="bi bi-person-badge me-2"></i>Properties Posted by Agents</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table admin-table">
+                <thead>
+                    <tr>
+                        <th style="width: 80px;">Thumbnail</th>
+                        <th>Headline & Location</th>
+                        <th>Posted By Agent</th>
+                        <th>Purpose</th>
+                        <th>Type</th>
+                        <th style="width: 120px;">Price</th>
+                        <th>Status</th>
+                        <th style="width: 150px;" class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($properties as $property)
+                        <tr>
+                            <td>
+                                @if($property->thumbnail)
+                                    <img src="{{ Storage::url($property->thumbnail) }}" alt="Property" class="rounded"
+                                        style="width: 60px; height: 60px; object-fit: cover;">
+                                @else
+                                    <img src="https://via.placeholder.com/60" alt="No Image" class="rounded"
+                                        style="width: 60px; height: 60px; object-fit: cover;">
+                                @endif
+                            </td>
+                            <td>
+                                <div class="fw-bold text-dark">{{ $property->headline }}</div>
+                                <small class="text-muted"><i class="bi bi-geo-alt me-1"></i>{{ $property->location }}</small>
+                            </td>
+                            <td>
+                                <div class="fw-600 text-blue">{{ $property->owner->name ?? 'Unknown Agent' }}</div>
+                                <small class="text-muted">{{ $property->owner->email ?? '' }}</small>
+                            </td>
+                            <td>
+                                <span class="badge badge-admin bg-info">{{ $property->marketingPurpose->name ?? 'N/A' }}</span>
+                            </td>
+                            <td>
+                                <span class="badge badge-admin bg-primary">{{ $property->propertyType->name ?? 'N/A' }}</span>
+                            </td>
+                            <td>
+                                <div class="fw-600 text-pink">£{{ number_format($property->price, 2) }}</div>
+                            </td>
+                            <td>
+                                <form action="{{ route('admin.available-properties.update-status', $property->id) }}"
+                                    method="POST">
+                                    @csrf
+                                    <select name="status" class="form-select form-select-sm fw-600 text-dark"
+                                        style="min-width: 120px; background-color: #fff; border-color: #dee2e6;"
+                                        onchange="this.form.submit()">
+                                        <option value="pending" {{ $property->status == 'pending' ? 'selected' : '' }}>Pending
+                                        </option>
+                                        <option value="approved" {{ $property->status == 'approved' ? 'selected' : '' }}>Approved
+                                        </option>
+                                        <option value="disapproved" {{ $property->status == 'disapproved' ? 'selected' : '' }}>
+                                            Disapproved</option>
+                                        <option value="sold out" {{ $property->status == 'sold out' ? 'selected' : '' }}>Sold Out
+                                        </option>
+                                    </select>
+                                </form>
+                            </td>
+                            <td class="text-end">
+                                <div class="d-flex gap-2 justify-content-end">
+                                    <a href="{{ route('available-properties.show', $property->id) }}"
+                                        class="btn btn-sm btn-admin-edit" title="View" target="_blank">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                    <a href="{{ route('admin.available-properties.edit', $property->id) }}"
+                                        class="btn btn-sm btn-admin-edit" title="Edit">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <form action="{{ route('admin.available-properties.destroy', $property->id) }}"
+                                        method="POST" class="d-inline"
+                                        onsubmit="return confirm('Are you sure you want to delete this property?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-admin-delete" title="Delete">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="8" class="text-center py-5">
+                                <i class="bi bi-inbox fs-1 text-muted d-block mb-3"></i>
+                                <p class="text-muted mb-3">No agent properties found.</p>
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    @if($properties->hasPages())
+        <div class="mt-4">
+            {{ $properties->links('pagination::bootstrap-5') }}
+        </div>
+    @endif
+@endsection
