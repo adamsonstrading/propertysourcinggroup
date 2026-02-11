@@ -65,7 +65,7 @@
                 <div class="text-secondary lh-lg fs-5">
                     <p class="mb-4">
                         Welcome to <span class="fw-bold">Invest In Success</span>, brought to you by The Property Sourcing
-                        Company. Join hosts <span class="text-blue fw-bold">Jonny Christie</span> and <span
+                        Group. Join hosts <span class="text-blue fw-bold">Jonny Christie</span> and <span
                             class="text-blue fw-bold">Jessica Chambers</span> as they dive into the world of property –
                         sharing real deals, real stories, and real success.
                     </p>
@@ -177,7 +177,7 @@
 
                 <div class="text-secondary lh-lg mb-5 px-lg-5">
                     <p class="mb-4">
-                        Simply put, we'll get you the best possible deal. Our sister company, The Property Sourcing Company,
+                        Simply put, we'll get you the best possible deal. Our sister company, The Property Sourcing Group,
                         have been in the property buying industry for years & we have access to all their stock which is at
                         a price point that is ready for investors to buy and make a great return on.
                     </p>

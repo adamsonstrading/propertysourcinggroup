@@ -37,7 +37,8 @@
                                 <div class="bg-pink-soft p-2 rounded-circle">
                                     <i class="bi bi-geo-alt-fill text-pink fs-4"></i>
                                 </div>
-                                <span class="fs-5 fw-bold">5-7 High Street, London, England, E13 0AD</span>
+                                <span class="fs-5 fw-bold">5-7 High Street London United Kingdom. E
+                                    13 0AD</span>
                             </div>
                             <div class="d-flex align-items-center gap-3">
                                 <div class="bg-pink-soft p-2 rounded-circle">
@@ -55,7 +56,7 @@
                                 <div class="bg-pink-soft p-2 rounded-circle">
                                     <i class="bi bi-envelope-fill text-pink fs-4"></i>
                                 </div>
-                                <span class="fs-5 fw-bold">hello@thepropertysourcingcompany.co.uk</span>
+                                <span class="fs-5 fw-bold">info@propertysourcinggroup.co.uk</span>
                             </div>
                         </div>
 

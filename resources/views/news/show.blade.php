@@ -25,7 +25,7 @@
                         <i class="bi bi-person-fill fs-5"></i>
                     </div>
                     <div>
-                        <p class="mb-0 fw-bold small">{{ $article->author_name ?? 'The Property Sourcing Co' }}</p>
+                        <p class="mb-0 fw-bold small">{{ $article->author_name ?? 'The Property Sourcing Group' }}</p>
                         <p class="mb-0 small opacity-75">
                             {{ \Carbon\Carbon::parse($article->published_at ?? $article->created_at)->format('d F Y') }}
                         </p>

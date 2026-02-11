@@ -212,7 +212,7 @@
         <div class="container py-5">
             <div class="row align-items-center">
                 <div class="col-lg-6">
-                    <h2 class="display-5 fw-bold mb-4 text-blue">Who Are The Property Sourcing Company?</h2>
+                    <h2 class="display-5 fw-bold mb-4 text-blue">Who Are The Property Sourcing Group?</h2>
                     <p class="text-muted mb-4">We are property experts with over 10 years of experience in the industry. Our
                         aim is to help you find the best property deals in the UK.</p>
                     <p class="mb-4 text-secondary text-muted">Our team of experts will work with you to understand your

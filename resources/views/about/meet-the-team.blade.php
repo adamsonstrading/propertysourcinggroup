@@ -13,7 +13,7 @@
                         <h1 class="display-3 fw-bold mb-4">MEET THE TEAM</h1>
                         <p class="lead opacity-90 fs-4 mb-4">
                             Our mission: to be part of the journey when you start reaching your goals within the Property
-                            Sourcing Company.
+                            Sourcing Group.
                         </p>
                         <a href="{{ route('home') }}#contact"
                             class="btn btn-custom-pink px-5 py-3 rounded-pill fw-bold text-uppercase">Invest Today</a>

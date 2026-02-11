@@ -26,7 +26,7 @@
                 <div class="col-lg-10">
                     <p class="lead text-secondary lh-lg mb-4">
                         Are you ready to take your property investment journey to the next level? The Property Sourcing
-                        Company's intensive two-day seminar will equip you with the proven strategies and insider knowledge
+                        Group's intensive two-day seminar will equip you with the proven strategies and insider knowledge
                         to achieve financial freedom.
                     </p>
                     <p class="text-secondary lh-lg mb-4">
@@ -56,7 +56,7 @@
                 <h2 class="fw-bold text-blue mb-3">WHY ATTEND OUR PROPERTY INVESTMENT SEMINAR?</h2>
                 <div class="mx-auto bg-pink mb-4" style="height: 3px; width: 60px;"></div>
                 <p class="lead text-secondary mx-auto" style="max-width: 800px;">
-                    Transform your financial future with The Property Sourcing Company's Property Investment Seminar – your
+                    Transform your financial future with The Property Sourcing Group's Property Investment Seminar – your
                     proven path to turning £100,000 into £1 Million.
                 </p>
             </div>

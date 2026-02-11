@@ -685,7 +685,7 @@
 
     <!-- Pink Info Bar -->
     <div class="top-pink-bar">
-        UK's Leading Property Deal Sourcing Company
+        UK's Leading Property Deal Sourcing Group
     </div>
 
     <div class="container">
@@ -733,11 +733,12 @@
                 <div class="col-lg-4 col-md-6">
                     <h5 class="fw-bold mb-4">Contact Us</h5>
                     <ul class="list-unstyled text-black opacity-75 small">
-                        <li class="d-flex mb-3"><i class="bi bi-geo-alt text-pink me-3"></i> 5-7 High Street, London,
-                            E13 0AD</li>
+                        <li class="d-flex mb-3"><i class="bi bi-geo-alt text-pink me-3"></i> 5-7 High Street London
+                            United Kingdom. E
+                            13 0AD</li>
                         <li class="d-flex mb-3"><i class="bi bi-telephone text-pink me-3"></i> 0203 411 3603</li>
                         <li class="d-flex mb-3"><i class="bi bi-envelope text-pink me-3"></i>
-                            info@thepropertysourcingcompany.co.uk</li>
+                            info@propertysourcinggroup.co.uk</li>
                     </ul>
                 </div>
             </div>
