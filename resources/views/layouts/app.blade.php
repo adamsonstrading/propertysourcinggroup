@@ -570,13 +570,20 @@
                 <!-- Contact & Socials Area -->
                 <div
                     class="col-md-7 col-12 d-flex flex-column flex-md-row justify-content-end align-items-center gap-4">
-                    <!-- Phone -->
-                    <div class="d-flex align-items-center text-dark">
-                        <i class="bi bi-telephone-fill me-2 text-pink fs-5"></i>
-                        <div>
-                            <span class="d-block text-uppercase small text-muted" style="font-size: 0.7rem;">Call Us
-                                Now</span>
-                            <span class="fw-bold fs-5 text-blue">0203 411 3603</span>
+                    <!-- Contact Info Stacked -->
+                    <div class="d-flex flex-column gap-1">
+                        <!-- Phone -->
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-telephone-fill me-2 text-pink small"></i>
+                            <a href="tel:02034113603" class="fw-bold text-blue text-decoration-none small">0203 411
+                                3603</a>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-envelope-fill me-2 text-pink small"></i>
+                            <a href="mailto:info@propertysourcinggroup.co.uk"
+                                class="fw-bold text-blue text-decoration-none small">info@propertysourcinggroup.co.uk</a>
                         </div>
                     </div>
 
