@@ -559,7 +559,7 @@
         <div class="container">
             <div class="row align-items-center">
                 <!-- Logo Area -->
-                <div class="col-md-5 col-12 text-center text-md-start mb-3 mb-md-0">
+                <div class="col-md-4 col-12 text-center text-md-start mb-3 mb-md-0">
                     <a href="{{ route('home') }}"
                         class="logo-container justify-content-center justify-content-md-start">
                         <img src="{{ asset('logo.png') }}" alt="Property Sourcing Group"
@@ -569,7 +569,7 @@
 
                 <!-- Contact & Socials Area -->
                 <div
-                    class="col-md-7 col-12 d-flex flex-column flex-md-row justify-content-end align-items-center gap-4">
+                    class="col-md-8 col-12 d-flex flex-column flex-md-row justify-content-end align-items-center gap-4">
                     <!-- Contact Info Stacked -->
                     <div class="d-flex flex-column gap-1">
                         <!-- Phone -->
@@ -598,9 +598,11 @@
                     </div>
 
                     <!-- CTA -->
-                    <div class="d-none d-lg-flex gap-2 ms-2">
-                        <a href="{{ route('investor-event') }}" class="btn btn-event px-4">Join Event</a>
-                        <a href="{{ route('become-investor') }}" class="btn btn-custom-pink">Invest Now</a>
+                    <div
+                        class="d-flex flex-nowrap gap-2 ms-md-2 mt-3 mt-md-0 justify-content-center justify-content-md-end">
+                        <a href="{{ route('investor-event') }}" class="btn btn-event text-nowrap px-3">Join Event</a>
+                        <a href="{{ route('become-investor') }}" class="btn btn-custom-pink text-nowrap px-3">Invest
+                            Now</a>
                     </div>
                 </div>
             </div>
