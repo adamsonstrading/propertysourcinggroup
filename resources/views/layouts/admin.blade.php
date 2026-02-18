@@ -502,6 +502,11 @@
                     <i class="bi bi-question-circle"></i>
                     <span>FAQs</span>
                 </a>
+                <a href="{{ route('admin.trustpilot-reviews.index') }}"
+                    class="{{ request()->routeIs('admin.trustpilot-reviews.*') ? 'active' : '' }}">
+                    <i class="bi bi-star"></i>
+                    <span>Trustpilot Reviews</span>
+                </a>
                 <a href="{{ route('admin.work-steps.index') }}"
                     class="{{ request()->routeIs('admin.work-steps.*') ? 'active' : '' }}">
                     <i class="bi bi-list-check"></i>

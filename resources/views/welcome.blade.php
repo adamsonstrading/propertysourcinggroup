@@ -135,6 +135,51 @@
         </div>
     </section>
 
+    <!-- Trustpilot Reviews Section -->
+    @if(isset($trustpilotReviews) && $trustpilotReviews->isNotEmpty())
+        @php
+            $tpReview = $trustpilotReviews->first();
+        @endphp
+        <section class="py-4 border-top border-bottom" style="background-color: #fafffc;">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-10">
+                        <div class="d-flex flex-column flex-lg-row justify-content-between align-items-center gap-4 gap-lg-3">
+                            <!-- Logo Area -->
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="bi bi-star-fill fs-2" style="color: #00b67a;"></i>
+                                <span class="fw-bold fs-3 text-dark">Trustpilot</span>
+                            </div>
+
+                            <!-- Rating Area -->
+                            <div class="d-flex flex-column flex-md-row align-items-center gap-3 text-center text-md-start">
+                                <div class="d-flex gap-1 justify-content-center">
+                                    @for($i = 1; $i <= 5; $i++)
+                                        <div class="d-flex align-items-center justify-content-center" 
+                                             style="width: 32px; height: 32px; background-color: {{ $i <= $tpReview->rating_stars ? '#00b67a' : '#dcdce6' }}; color: white;">
+                                            <i class="bi bi-star-fill fs-6"></i>
+                                        </div>
+                                    @endfor
+                                </div>
+                                <div>
+                                    <div class="fw-bold fs-5 text-dark lh-1">Rated {{ number_format($tpReview->rating_stars, 1) }} / 5.0</div>
+                                    <div class="small text-muted mt-1">{{ $tpReview->review_text }}</div>
+                                </div>
+                            </div>
+
+                            <!-- Link Icon -->
+                            <a href="https://uk.trustpilot.com/review/propertysourcinggroup.co.uk" target="_blank" 
+                               class="btn rounded-circle d-flex align-items-center justify-content-center shadow-sm transition-hover mt-2 mt-lg-0"
+                               style="width: 50px; height: 50px; background-color: white; color: #00b67a; border: 2px solid #00b67a;">
+                                <i class="bi bi-box-arrow-right fs-4"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    @endif
+
     <!-- Investment Deals (Redesigned to match image) -->
     <section id="properties" class="py-5" style="background-color: #0b1c33;">
         <div class="container py-5">

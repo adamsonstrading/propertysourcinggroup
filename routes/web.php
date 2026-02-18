@@ -135,6 +135,16 @@ Route::prefix('admin')->middleware(['auth', 'agent'])->name('admin.')->group(fun
         Route::resource('marketing-purposes', \App\Http\Controllers\Admin\MarketingPurposeController::class);
         Route::resource('unit-types', \App\Http\Controllers\Admin\UnitTypeController::class);
         Route::resource('features', \App\Http\Controllers\Admin\FeatureController::class);
+        Route::resource('trustpilot-reviews', \App\Http\Controllers\Admin\TrustpilotReviewController::class)
+            ->names([
+                'index' => 'trustpilot-reviews.index',
+                'create' => 'trustpilot-reviews.create',
+                'store' => 'trustpilot-reviews.store',
+                'edit' => 'trustpilot-reviews.edit',
+                'update' => 'trustpilot-reviews.update',
+                'destroy' => 'trustpilot-reviews.destroy',
+            ])
+            ->parameters(['trustpilot-reviews' => 'trustpilot_review']);
     });
 });
 

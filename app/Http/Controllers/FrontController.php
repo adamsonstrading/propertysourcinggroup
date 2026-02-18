@@ -9,6 +9,7 @@ use App\Models\Faq;
 use App\Models\Location;
 use App\Models\TeamMember;
 use App\Models\News;
+use App\Models\TrustpilotReview;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
@@ -33,7 +34,11 @@ class FrontController extends Controller
             return Faq::orderBy('sort_order')->get();
         });
 
-        return view('welcome', compact('properties', 'services', 'workSteps', 'faqs'));
+        $trustpilotReviews = Cache::remember('homepage_trustpilot_reviews', 3600, function () {
+            return TrustpilotReview::where('is_active', true)->latest()->get();
+        });
+
+        return view('welcome', compact('properties', 'services', 'workSteps', 'faqs', 'trustpilotReviews'));
     }
 
     public function service($slug)
