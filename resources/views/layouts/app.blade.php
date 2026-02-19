@@ -677,7 +677,9 @@
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end">
                                 @if(Auth::user()->role === 'admin')
-                                    <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}">Dashboard</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}">Admin Dashboard</a></li>
+                                @else
+                                    <li><a class="dropdown-item" href="{{ route('user.dashboard') }}">Dashboard</a></li>
                                 @endif
                                 <li>
                                     <form action="{{ route('logout') }}" method="POST" class="d-inline">

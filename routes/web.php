@@ -56,8 +56,30 @@ Route::post('/register', [App\Http\Controllers\RegisterController::class, 'regis
 
 // Available Properties (Logged-in Users)
 Route::middleware('auth')->group(function () {
+    // Unified Messaging System (Shared)
+    Route::get('/dashboard/messages', [\App\Http\Controllers\Admin\MessageController::class, 'index'])->name('admin.messages.index');
+    Route::post('/dashboard/messages/fetch', [\App\Http\Controllers\Admin\MessageController::class, 'fetchMessages'])->name('admin.messages.fetch');
+    Route::post('/dashboard/messages/send', [\App\Http\Controllers\Admin\MessageController::class, 'sendMessage'])->name('admin.messages.send');
+
     Route::get('/available-properties', [App\Http\Controllers\AvailablePropertyController::class, 'index'])->name('available-properties.index');
     Route::get('/available-properties/{id}', [App\Http\Controllers\AvailablePropertyController::class, 'show'])->name('available-properties.show');
+
+    // Property Actions
+    Route::post('/property/offer', [App\Http\Controllers\PropertyOfferController::class, 'store'])->name('property.offer.store');
+    Route::post('/property/favorite/{property}', [App\Http\Controllers\PropertyFavoriteController::class, 'toggle'])->name('property.favorite.toggle');
+    Route::post('/property/message', [App\Http\Controllers\PropertyMessageController::class, 'store'])->name('property.message.store');
+
+    // User Dashboard
+    Route::get('/dashboard', [App\Http\Controllers\UserDashboardController::class, 'index'])->name('user.dashboard');
+
+    // User lists
+    Route::get('/my-offers', [App\Http\Controllers\PropertyOfferController::class, 'index'])->name('user.offers.index');
+    Route::get('/my-favorites', [App\Http\Controllers\PropertyFavoriteController::class, 'index'])->name('user.favorites.index');
+    Route::get('/my-messages', [App\Http\Controllers\PropertyMessageController::class, 'index'])->name('user.messages.index');
+
+    // Profile
+    Route::get('/profile/edit', [App\Http\Controllers\UserProfileController::class, 'edit'])->name('user.profile.edit');
+    Route::put('/profile/update', [App\Http\Controllers\UserProfileController::class, 'update'])->name('user.profile.update');
 });
 
 // Admin & Agent Shared Staff Routes
@@ -80,6 +102,11 @@ Route::prefix('admin')->middleware(['auth', 'agent'])->name('admin.')->group(fun
     Route::delete('/inquiries/{id}', [InquiryController::class, 'destroy'])->name('inquiries.destroy');
     Route::post('/inquiries/{id}/mark-read', [InquiryController::class, 'markAsRead'])->name('inquiries.mark-read');
     Route::post('/inquiries/{id}/mark-unread', [InquiryController::class, 'markAsUnread'])->name('inquiries.mark-unread');
+
+    // Property Offers & Completion (Shared: Admin & Agent)
+    Route::get('/property/{property}/offers', [\App\Http\Controllers\Admin\PropertyOfferController::class, 'index'])->name('property-offers.index');
+    Route::put('/offers/{offer}', [\App\Http\Controllers\Admin\PropertyOfferController::class, 'update'])->name('property-offers.update');
+    Route::post('/offers/{offer}/complete', [\App\Http\Controllers\Admin\PropertyOfferController::class, 'complete'])->name('property-offers.complete');
 
     // Admin-Only Routes
     Route::middleware('admin')->group(function () {
@@ -145,6 +172,9 @@ Route::prefix('admin')->middleware(['auth', 'agent'])->name('admin.')->group(fun
                 'destroy' => 'trustpilot-reviews.destroy',
             ])
             ->parameters(['trustpilot-reviews' => 'trustpilot_review']);
+
+
+
     });
 });
 

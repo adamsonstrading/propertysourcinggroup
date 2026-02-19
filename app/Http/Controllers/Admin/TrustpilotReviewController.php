@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\TrustpilotReview;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class TrustpilotReviewController extends Controller
 {
@@ -33,6 +34,7 @@ class TrustpilotReviewController extends Controller
         }
 
         TrustpilotReview::create($validated);
+        Cache::forget('homepage_trustpilot_reviews');
 
         return redirect()->route('admin.trustpilot-reviews.index')->with('success', 'Review added successfully.');
     }
@@ -55,6 +57,7 @@ class TrustpilotReviewController extends Controller
         }
 
         $trustpilot_review->update($validated);
+        Cache::forget('homepage_trustpilot_reviews');
 
         return redirect()->route('admin.trustpilot-reviews.index')->with('success', 'Review updated successfully.');
     }
@@ -62,6 +65,7 @@ class TrustpilotReviewController extends Controller
     public function destroy(TrustpilotReview $trustpilot_review)
     {
         $trustpilot_review->delete();
+        Cache::forget('homepage_trustpilot_reviews');
         return redirect()->route('admin.trustpilot-reviews.index')->with('success', 'Review deleted successfully.');
     }
 }

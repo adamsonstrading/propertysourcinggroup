@@ -95,20 +95,51 @@ class AvailablePropertyController extends Controller
             'full_description' => 'required|string',
             'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'gallery_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'video' => 'nullable|mimetypes:video/mp4,video/quicktime,video/x-msvideo,video/x-matroska|max:20480', // 20MB max
+            'video' => 'nullable|mimetypes:video/mp4,video/quicktime,video/x-msvideo,video/x-matroska|max:20480',
             'status' => 'nullable|string|in:pending,approved,disapproved,sold out',
             'features' => 'nullable|array',
             'features.*' => 'exists:features,id',
+            // New Fields Validation
+            'current_value' => 'nullable|numeric',
+            'purchase_date' => 'nullable|date',
+            'financing_type' => 'nullable|in:cash,mortgage',
+            'loan_amount' => 'nullable|numeric',
+            'interest_rate' => 'nullable|numeric',
+            'lender_name' => 'nullable|string',
+            'monthly_payment' => 'nullable|numeric', // Mortgage monthly payment override
+            'investment_type' => 'nullable|in:buy_to_sell,rental',
+            'sale_price' => 'nullable|numeric',
+            'sale_date' => 'nullable|date',
+            'monthly_rent' => 'nullable|numeric', // Rental income
+            'is_currently_rented' => 'nullable|boolean',
+            'tenure_type' => 'nullable|in:freehold,leasehold',
+            'service_charge' => 'nullable|numeric',
+            'ground_rent' => 'nullable|numeric',
+            'lease_years_remaining' => 'nullable|integer',
+            'gas_safety_issue_date' => 'nullable|date',
+            'gas_safety_expiry_date' => 'nullable|date',
+            'electrical_issue_date' => 'nullable|date',
+            'electrical_expiry_date' => 'nullable|date',
+            // Associated Costs (Array)
+            'costs' => 'nullable|array',
+            'costs.*.name' => 'required_with:costs|string',
+            'costs.*.amount' => 'required_with:costs|numeric',
+            // Tenants (Array)
+            'tenants' => 'nullable|array',
+            'tenants.*.name' => 'required_with:tenants|string',
+            'tenants.*.phone' => 'nullable|string',
+            'tenants.*.email' => 'nullable|email',
+            'tenants.*.is_primary' => 'nullable|boolean',
         ]);
 
-        $data = $request->except(['thumbnail', 'gallery_images', 'features', 'video']);
+        $data = $request->except(['thumbnail', 'gallery_images', 'features', 'video', 'costs', 'tenants']);
         $data['discount_available'] = $request->has('discount_available');
+        $data['is_currently_rented'] = $request->has('is_currently_rented');
 
         // Status Security
         if (auth()->user()->role === 'admin') {
             $data['status'] = $request->status ?? 'pending';
         } else {
-            // Agents can only set pending or sold out
             if ($request->has('status') && in_array($request->status, ['pending', 'sold out'])) {
                 $data['status'] = $request->status;
             } else {
@@ -139,6 +170,32 @@ class AvailablePropertyController extends Controller
         // Sync features
         if ($request->has('features')) {
             $property->features()->sync($request->features);
+        }
+
+        // Save Costs
+        if ($request->has('costs')) {
+            foreach ($request->costs as $cost) {
+                if (!empty($cost['name']) && !empty($cost['amount'])) {
+                    $property->costs()->create([
+                        'name' => $cost['name'],
+                        'amount' => $cost['amount'],
+                    ]);
+                }
+            }
+        }
+
+        // Save Tenants
+        if ($request->has('tenants')) {
+            foreach ($request->tenants as $tenant) {
+                if (!empty($tenant['name'])) {
+                    $property->tenants()->create([
+                        'name' => $tenant['name'],
+                        'phone' => $tenant['phone'] ?? null,
+                        'email' => $tenant['email'] ?? null,
+                        'is_primary' => isset($tenant['is_primary']),
+                    ]);
+                }
+            }
         }
 
         return redirect()->route('admin.available-properties.index')->with('success', 'Property added successfully');
@@ -174,10 +231,42 @@ class AvailablePropertyController extends Controller
             'status' => 'nullable|string|in:pending,approved,disapproved,sold out',
             'features' => 'nullable|array',
             'features.*' => 'exists:features,id',
+            // New Fields Validation
+            'current_value' => 'nullable|numeric',
+            'purchase_date' => 'nullable|date',
+            'financing_type' => 'nullable|in:cash,mortgage',
+            'loan_amount' => 'nullable|numeric',
+            'interest_rate' => 'nullable|numeric',
+            'lender_name' => 'nullable|string',
+            'monthly_payment' => 'nullable|numeric',
+            'investment_type' => 'nullable|in:buy_to_sell,rental',
+            'sale_price' => 'nullable|numeric',
+            'sale_date' => 'nullable|date',
+            'monthly_rent' => 'nullable|numeric',
+            'is_currently_rented' => 'nullable|boolean',
+            'tenure_type' => 'nullable|in:freehold,leasehold',
+            'service_charge' => 'nullable|numeric',
+            'ground_rent' => 'nullable|numeric',
+            'lease_years_remaining' => 'nullable|integer',
+            'gas_safety_issue_date' => 'nullable|date',
+            'gas_safety_expiry_date' => 'nullable|date',
+            'electrical_issue_date' => 'nullable|date',
+            'electrical_expiry_date' => 'nullable|date',
+            // Associated Costs (Array)
+            'costs' => 'nullable|array',
+            'costs.*.name' => 'required_with:costs|string',
+            'costs.*.amount' => 'required_with:costs|numeric',
+            // Tenants (Array)
+            'tenants' => 'nullable|array',
+            'tenants.*.name' => 'required_with:tenants|string',
+            'tenants.*.phone' => 'nullable|string',
+            'tenants.*.email' => 'nullable|email',
+            'tenants.*.is_primary' => 'nullable|boolean',
         ]);
 
-        $data = $request->except(['thumbnail', 'gallery_images', 'features', 'video']);
+        $data = $request->except(['thumbnail', 'gallery_images', 'features', 'video', 'costs', 'tenants']);
         $data['discount_available'] = $request->has('discount_available');
+        $data['is_currently_rented'] = $request->has('is_currently_rented');
 
         if ($request->has('status')) {
             if (auth()->user()->role === 'admin') {
@@ -221,6 +310,34 @@ class AvailablePropertyController extends Controller
             $property->features()->sync($request->features);
         } else {
             $property->features()->detach();
+        }
+
+        // Sync Costs (Delete all and re-create)
+        $property->costs()->delete();
+        if ($request->has('costs')) {
+            foreach ($request->costs as $cost) {
+                if (!empty($cost['name']) && !empty($cost['amount'])) {
+                    $property->costs()->create([
+                        'name' => $cost['name'],
+                        'amount' => $cost['amount'],
+                    ]);
+                }
+            }
+        }
+
+        // Sync Tenants (Delete all and re-create)
+        $property->tenants()->delete();
+        if ($request->has('tenants')) {
+            foreach ($request->tenants as $tenant) {
+                if (!empty($tenant['name'])) {
+                    $property->tenants()->create([
+                        'name' => $tenant['name'],
+                        'phone' => $tenant['phone'] ?? null,
+                        'email' => $tenant['email'] ?? null,
+                        'is_primary' => isset($tenant['is_primary']),
+                    ]);
+                }
+            }
         }
 
         return redirect()->route('admin.available-properties.index')->with('success', 'Property updated successfully');

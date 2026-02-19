@@ -450,6 +450,15 @@
                 margin-left: 0;
             }
         }
+        /* User Dashboard Utilities */
+        .text-blue { color: var(--primary-blue) !important; }
+        .text-pink { color: var(--primary-pink) !important; }
+        .bg-blue { background-color: var(--primary-blue) !important; color: white !important; }
+        .bg-pink { background-color: var(--primary-pink) !important; color: white !important; }
+        .btn-outline-blue { border: 1px solid var(--primary-blue); color: var(--primary-blue); transition: all 0.3s; }
+        .btn-outline-blue:hover { background-color: var(--primary-blue); color: white; }
+        .hover-lift { transition: transform 0.3s ease; }
+        .hover-lift:hover { transform: translateY(-5px); }
     </style>
     @stack('styles')
 </head>
@@ -465,125 +474,158 @@
 
         <nav class="sidebar-nav">
             <div class="nav-section-title">Main</div>
-            <a href="{{ route('admin.dashboard') }}"
-                class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+            <a href="{{ (auth()->user()->role === 'admin' || auth()->user()->role === 'agent') ? route('admin.dashboard') : route('user.dashboard') }}"
+                class="{{ request()->routeIs('admin.dashboard') || request()->routeIs('user.dashboard') ? 'active' : '' }}">
                 <i class="bi bi-speedometer2"></i>
-                <span>Dashboard</span>
+                <span>{{ (auth()->user()->role === 'admin' || auth()->user()->role === 'agent') ? 'Dashboard' : 'My Dashboard' }}</span>
             </a>
-            @if(auth()->user()->role === 'admin')
-                <a href="{{ route('admin.users.index') }}"
-                    class="{{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
-                    <i class="bi bi-people-fill"></i>
-                    <span>User Accounts</span>
-                </a>
-            @endif
 
-            @if(auth()->user()->role === 'admin')
-                <div class="nav-section-title">Content Management</div>
-                <a href="{{ route('admin.services.index') }}"
-                    class="{{ request()->routeIs('admin.services.*') ? 'active' : '' }}">
-                    <i class="bi bi-grid-1x2"></i>
-                    <span>Services</span>
-                </a>
-                <a href="{{ route('admin.locations.index') }}"
-                    class="{{ request()->routeIs('admin.locations.*') ? 'active' : '' }}">
-                    <i class="bi bi-geo-alt"></i>
-                    <span>Locations</span>
-                </a>
-                <a href="{{ route('admin.team.index') }}" class="{{ request()->routeIs('admin.team.*') ? 'active' : '' }}">
-                    <i class="bi bi-people"></i>
-                    <span>Team Members</span>
-                </a>
-                <a href="{{ route('admin.news.index') }}" class="{{ request()->routeIs('admin.news.*') ? 'active' : '' }}">
-                    <i class="bi bi-newspaper"></i>
-                    <span>News & Blog</span>
-                </a>
-                <a href="{{ route('admin.faq.index') }}" class="{{ request()->routeIs('admin.faq.*') ? 'active' : '' }}">
-                    <i class="bi bi-question-circle"></i>
-                    <span>FAQs</span>
-                </a>
-                <a href="{{ route('admin.trustpilot-reviews.index') }}"
-                    class="{{ request()->routeIs('admin.trustpilot-reviews.*') ? 'active' : '' }}">
-                    <i class="bi bi-star"></i>
-                    <span>Trustpilot Reviews</span>
-                </a>
-                <a href="{{ route('admin.work-steps.index') }}"
-                    class="{{ request()->routeIs('admin.work-steps.*') ? 'active' : '' }}">
-                    <i class="bi bi-list-check"></i>
-                    <span>How It Works</span>
-                </a>
-            @endif
-            <a href="{{ route('admin.inquiries.index') }}"
-                class="{{ request()->routeIs('admin.inquiries.*') && !request()->has('type') ? 'active' : '' }}">
-                <i class="bi bi-envelope-fill"></i>
-                <span>General Inquiries</span>
-                @php
-                    $unreadInquiriesCount = \App\Models\Inquiry::unread()->where('type', '!=', 'property')->count();
-                @endphp
-                @if($unreadInquiriesCount > 0)
-                    <span class="badge bg-danger ms-auto">{{ $unreadInquiriesCount }}</span>
+            <!-- Admin & Agent Menu -->
+            @if(in_array(auth()->user()->role, ['admin', 'agent']))
+                @if(auth()->user()->role === 'admin')
+                    <a href="{{ route('admin.users.index') }}"
+                        class="{{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
+                        <i class="bi bi-people-fill"></i>
+                        <span>User Accounts</span>
+                    </a>
                 @endif
-            </a>
 
-            <a href="{{ route('admin.inquiries.index', ['type' => 'property']) }}"
-                class="{{ request()->routeIs('admin.inquiries.*') && request()->get('type') == 'property' ? 'active' : '' }}">
-                <i class="bi bi-building-check"></i>
-                <span>Property Inquiries</span>
-                @php
-                    $unreadPropertyCount = \App\Models\Inquiry::unread()->where('type', 'property')->count();
-                @endphp
-                @if($unreadPropertyCount > 0)
-                    <span class="badge bg-danger ms-auto">{{ $unreadPropertyCount }}</span>
+                <div class="nav-section-title">Management</div>
+
+                @if(auth()->user()->role === 'admin')
+                    <a href="{{ route('admin.services.index') }}"
+                        class="{{ request()->routeIs('admin.services.*') ? 'active' : '' }}">
+                        <i class="bi bi-grid-1x2"></i> <span>Services</span>
+                    </a>
+                    <a href="{{ route('admin.locations.index') }}"
+                        class="{{ request()->routeIs('admin.locations.*') ? 'active' : '' }}">
+                        <i class="bi bi-geo-alt"></i> <span>Locations</span>
+                    </a>
+                    <a href="{{ route('admin.team.index') }}" class="{{ request()->routeIs('admin.team.*') ? 'active' : '' }}">
+                        <i class="bi bi-people"></i> <span>Team Members</span>
+                    </a>
+                    <a href="{{ route('admin.news.index') }}" class="{{ request()->routeIs('admin.news.*') ? 'active' : '' }}">
+                        <i class="bi bi-newspaper"></i> <span>News & Blog</span>
+                    </a>
+                    <a href="{{ route('admin.faq.index') }}" class="{{ request()->routeIs('admin.faq.*') ? 'active' : '' }}">
+                        <i class="bi bi-question-circle"></i> <span>FAQs</span>
+                    </a>
+                    <a href="{{ route('admin.trustpilot-reviews.index') }}"
+                        class="{{ request()->routeIs('admin.trustpilot-reviews.*') ? 'active' : '' }}">
+                        <i class="bi bi-star"></i> <span>Trustpilot Reviews</span>
+                    </a>
+                    <a href="{{ route('admin.work-steps.index') }}"
+                        class="{{ request()->routeIs('admin.work-steps.*') ? 'active' : '' }}">
+                        <i class="bi bi-list-check"></i> <span>How It Works</span>
+                    </a>
                 @endif
-            </a>
 
-            <div class="nav-section-title">Properties</div>
-            @if(auth()->user()->role === 'admin')
-                <a href="{{ route('admin.dashboard') }}"
-                    class="{{ request()->routeIs('admin.dashboard') || request()->routeIs('admin.create') || request()->routeIs('admin.edit') ? 'active' : '' }}">
-                    <i class="bi bi-list-stars"></i>
-                    <span>Recent Properties</span>
+                <a href="{{ route('admin.inquiries.index') }}"
+                    class="{{ request()->routeIs('admin.inquiries.*') && !request()->has('type') ? 'active' : '' }}">
+                    <i class="bi bi-envelope-fill"></i>
+                    <span>General Inquiries</span>
+                    @php
+                        $unreadInquiriesCount = \App\Models\Inquiry::unread()->where('type', '!=', 'property')->count();
+                    @endphp
+                    @if($unreadInquiriesCount > 0)
+                        <span class="badge bg-danger ms-auto">{{ $unreadInquiriesCount }}</span>
+                    @endif
                 </a>
-            @endif
-            <a href="{{ route('admin.available-properties.index') }}"
-                class="{{ request()->routeIs('admin.available-properties.index') ? 'active' : '' }}">
-                <i class="bi bi-building"></i>
-                <span>Available Properties</span>
-            </a>
-            @if(auth()->user()->role === 'admin')
-                <a href="{{ route('admin.agent-properties') }}"
-                    class="{{ request()->routeIs('admin.agent-properties') ? 'active' : '' }}">
-                    <i class="bi bi-person-badge"></i>
-                    <span>Agent Properties</span>
-                </a>
-            @endif
-            <a href="{{ route('admin.available-properties.create') }}"
-                class="{{ request()->routeIs('admin.available-properties.create') ? 'active' : '' }}">
-                <i class="bi bi-plus-circle"></i>
-                <span>Add Property</span>
-            </a>
 
-            @if(auth()->user()->role === 'admin')
-                <div class="nav-section-title">Form Settings</div>
-                <a href="{{ route('admin.property-types.index') }}"
-                    class="{{ request()->routeIs('admin.property-types.*') ? 'active' : '' }}">
-                    <i class="bi bi-house-door"></i>
-                    <span>Property Types</span>
+                <a href="{{ route('admin.inquiries.index', ['type' => 'property']) }}"
+                    class="{{ request()->routeIs('admin.inquiries.*') && request()->get('type') == 'property' ? 'active' : '' }}">
+                    <i class="bi bi-building-check"></i>
+                    <span>Property Inquiries</span>
+                    @php
+                        $unreadPropertyCount = \App\Models\Inquiry::unread()->where('type', 'property')->count();
+                    @endphp
+                    @if($unreadPropertyCount > 0)
+                        <span class="badge bg-danger ms-auto">{{ $unreadPropertyCount }}</span>
+                    @endif
                 </a>
-                <a href="{{ route('admin.marketing-purposes.index') }}"
-                    class="{{ request()->routeIs('admin.marketing-purposes.*') ? 'active' : '' }}">
-                    <i class="bi bi-tag"></i>
-                    <span>Marketing Purposes</span>
+
+                <!-- Messages Link for Admin/Agent -->
+                <a href="{{ route('admin.messages.index') }}"
+                    class="{{ request()->routeIs('admin.messages.*') ? 'active' : '' }}">
+                    <i class="bi bi-chat-dots-fill"></i>
+                    <span>Messages</span>
                 </a>
-                <a href="{{ route('admin.unit-types.index') }}"
-                    class="{{ request()->routeIs('admin.unit-types.*') ? 'active' : '' }}">
-                    <i class="bi bi-grid"></i>
-                    <span>Unit Types</span>
+
+                <div class="nav-section-title">Properties</div>
+                @if(auth()->user()->role === 'admin')
+                    <a href="{{ route('admin.dashboard') }}"
+                        class="{{ request()->routeIs('admin.dashboard') && !request()->routeIs('admin.available-properties.*') ? 'active' : '' }}">
+                        <i class="bi bi-list-stars"></i>
+                        <span>Recent Properties</span>
+                    </a>
+                @endif
+                <a href="{{ route('admin.available-properties.index') }}"
+                    class="{{ request()->routeIs('admin.available-properties.index') ? 'active' : '' }}">
+                    <i class="bi bi-building"></i>
+                    <span>Available Properties</span>
                 </a>
-                <a href="{{ route('admin.features.index') }}"
-                    class="{{ request()->routeIs('admin.features.*') ? 'active' : '' }}">
-                    <i class="bi bi-check-square"></i>
-                    <span>Features</span>
+                @if(auth()->user()->role === 'admin')
+                    <a href="{{ route('admin.agent-properties') }}"
+                        class="{{ request()->routeIs('admin.agent-properties') ? 'active' : '' }}">
+                        <i class="bi bi-person-badge"></i>
+                        <span>Agent Properties</span>
+                    </a>
+                @endif
+                <a href="{{ route('admin.available-properties.create') }}"
+                    class="{{ request()->routeIs('admin.available-properties.create') ? 'active' : '' }}">
+                    <i class="bi bi-plus-circle"></i>
+                    <span>Add Property</span>
+                </a>
+
+                @if(auth()->user()->role === 'admin')
+                    <div class="nav-section-title">Form Settings</div>
+                    <a href="{{ route('admin.property-types.index') }}"
+                        class="{{ request()->routeIs('admin.property-types.*') ? 'active' : '' }}">
+                        <i class="bi bi-house-door"></i> <span>Property Types</span>
+                    </a>
+                    <a href="{{ route('admin.marketing-purposes.index') }}"
+                        class="{{ request()->routeIs('admin.marketing-purposes.*') ? 'active' : '' }}">
+                        <i class="bi bi-tag"></i> <span>Marketing Purposes</span>
+                    </a>
+                    <a href="{{ route('admin.unit-types.index') }}"
+                        class="{{ request()->routeIs('admin.unit-types.*') ? 'active' : '' }}">
+                        <i class="bi bi-grid"></i> <span>Unit Types</span>
+                    </a>
+                    <a href="{{ route('admin.features.index') }}"
+                        class="{{ request()->routeIs('admin.features.*') ? 'active' : '' }}">
+                        <i class="bi bi-check-square"></i> <span>Features</span>
+                    </a>
+                @endif
+            @endif
+
+            <!-- Investor / Regular User Menu -->
+            @if(!in_array(auth()->user()->role, ['admin', 'agent']))
+                <div class="nav-section-title">My Activities</div>
+                <a href="{{ route('user.profile.edit') }}"
+                    class="{{ request()->routeIs('user.profile.*') ? 'active' : '' }}">
+                    <i class="bi bi-person-gear"></i>
+                    <span>My Profile</span>
+                </a>
+                <a href="{{ route('user.offers.index') }}"
+                    class="{{ request()->routeIs('user.offers.*') ? 'active' : '' }}">
+                    <i class="bi bi-currency-pound"></i>
+                    <span>My Offers</span>
+                </a>
+                <a href="{{ route('user.favorites.index') }}"
+                    class="{{ request()->routeIs('user.favorites.*') ? 'active' : '' }}">
+                    <i class="bi bi-heart"></i>
+                    <span>Favorites</span>
+                </a>
+                <!-- Messages Link for User -->
+                <a href="{{ route('admin.messages.index') }}"
+                    class="{{ request()->routeIs('admin.messages.*') ? 'active' : '' }}">
+                    <i class="bi bi-chat-dots"></i>
+                    <span>Messages</span>
+                </a>
+                <a href="{{ route('available-properties.index') }}"
+                    class="{{ request()->routeIs('available-properties.index') ? 'active' : '' }}">
+                    <i class="bi bi-search"></i>
+                    <span>Find Properties</span>
                 </a>
             @endif
 
@@ -608,15 +650,17 @@
         </div>
 
         <div class="topbar-actions">
-            <a href="{{ route('admin.inquiries.index') }}" class="topbar-btn text-decoration-none">
-                <i class="bi bi-bell"></i>
-                @if($unreadInquiriesCount > 0)
-                    <span class="badge bg-danger">{{ $unreadInquiriesCount }}</span>
-                @endif
-            </a>
-            <button class="topbar-btn">
+            @if(in_array(auth()->user()->role, ['admin', 'agent']))
+                <a href="{{ route('admin.inquiries.index') }}" class="topbar-btn text-decoration-none">
+                    <i class="bi bi-bell"></i>
+                    @if(($unreadInquiriesCount ?? 0) > 0)
+                        <span class="badge bg-danger">{{ $unreadInquiriesCount ?? 0 }}</span>
+                    @endif
+                </a>
+            @endif
+            <a href="{{ route('admin.messages.index') }}" class="topbar-btn text-decoration-none">
                 <i class="bi bi-envelope"></i>
-            </button>
+            </a>
             <div class="user-dropdown">
                 <div class="user-avatar">{{ substr(auth()->user()->name, 0, 1) }}</div>
                 <span class="fw-600">{{ auth()->user()->name }}</span>

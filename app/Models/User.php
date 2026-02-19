@@ -6,6 +6,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\UserCompletedProperty;
+use App\Models\AvailableProperty;
+use App\Models\PropertyOffer;
 
 class User extends Authenticatable
 {
@@ -22,14 +25,32 @@ class User extends Authenticatable
         'email',
         'role',
         'password',
-        'phone',
-        'address',
+        'phone_number',
+        'address_line1',
+        'address_line2',
         'city',
         'postcode',
-        'investment_type',
-        'status',
-        'is_active',
+        'country',
+        'company_name',
+        'company_registration',
+        'about_me',
+        'investment_credits',
     ];
+
+    public function completedProperties()
+    {
+        return $this->hasMany(UserCompletedProperty::class);
+    }
+
+    public function favorites()
+    {
+        return $this->hasMany(PropertyFavorite::class);
+    }
+
+    public function offers()
+    {
+        return $this->hasMany(PropertyOffer::class);
+    }
 
     /**
      * The attributes that should be hidden for serialization.
