@@ -585,7 +585,7 @@
                     <a href="{{ route('home') }}"
                         class="logo-container justify-content-center justify-content-md-start">
                         <img src="{{ asset('logo.png') }}" alt="Property Sourcing Group"
-                            style="max-height: 80px; width: auto;">
+                            style="max-height: 85px; width: auto; object-fit: contain; image-rendering: -webkit-optimize-contrast;">
                     </a>
                 </div>
 
@@ -739,7 +739,7 @@
             <div class="row gy-5">
                 <div class="col-lg-4 col-md-6">
                     <img src="{{ asset('logo.png') }}" alt="Property Sourcing Group" class="mb-4"
-                        style="max-height: 70px; width: auto;" loading="lazy">
+                        style="max-height: 75px; width: auto; object-fit: contain; image-rendering: -webkit-optimize-contrast;" loading="lazy">
                     <p class="text-black opacity-75 small mb-4">
                         We connect investors with high-yield UK property deals. Making property investment
                         accessible, profitable, and stress-free.

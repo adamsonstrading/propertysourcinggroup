@@ -159,6 +159,18 @@
                                         <p class="mb-0 fw-bold"><i
                                                 class="bi bi-geo-alt-fill me-1 text-pink"></i>{{ $property->location }}</p>
                                     </div>
+
+                                    <!-- Favorite Button Overlay -->
+                                    <div class="position-absolute top-0 start-0 p-3">
+                                        <form action="{{ route('property.favorite.toggle', $property->id) }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="btn btn-light btn-sm rounded-circle shadow-sm favorite-btn"
+                                                title="{{ $property->isFavoritedBy(auth()->user()) ? 'Remove from Favorites' : 'Add to Favorites' }}">
+                                                <i
+                                                    class="bi {{ $property->isFavoritedBy(auth()->user()) ? 'bi-heart-fill text-danger' : 'bi-heart' }}"></i>
+                                            </button>
+                                        </form>
+                                    </div>
                                 </div>
 
                                 <!-- Body -->
@@ -180,8 +192,24 @@
 
                                 <!-- Footer -->
                                 <div class="card-footer bg-white border-0 p-4 pt-0">
-                                    <a href="{{ route('available-properties.show', $property->id) }}"
-                                        class="btn btn-outline-blue w-100">View Details</a>
+                                    <div class="d-grid gap-2 mb-2">
+                                        <a href="{{ route('available-properties.show', $property->id) }}"
+                                            class="btn btn-outline-blue btn-sm fw-bold">View Details</a>
+                                    </div>
+                                    <div class="d-flex gap-2">
+                                        <button type="button"
+                                            class="btn btn-light btn-sm flex-grow-1 border fw-bold text-blue action-btn"
+                                            data-bs-toggle="modal" data-bs-target="#offerModal"
+                                            data-property-id="{{ $property->id }}" data-property-title="{{ $property->headline }}">
+                                            <i class="bi bi-tag-fill me-1"></i> Offer
+                                        </button>
+                                        <button type="button"
+                                            class="btn btn-light btn-sm flex-grow-1 border fw-bold text-blue action-btn"
+                                            data-bs-toggle="modal" data-bs-target="#messageModal"
+                                            data-property-id="{{ $property->id }}" data-property-title="{{ $property->headline }}">
+                                            <i class="bi bi-chat-dots-fill me-1"></i> Message
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -201,7 +229,91 @@
         </div>
     </section>
 
+    <!-- Offer Modal -->
+    <div class="modal fade" id="offerModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content border-0 rounded-4 shadow-lg">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold text-blue">Make an Offer</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <p class="text-muted small mb-4" id="offerModalTitle"></p>
+                    <form action="{{ route('property.offer.store') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="property_id" id="offerPropertyId">
+                        <div class="mb-4">
+                            <label class="form-label small fw-bold">Your Offer Amount (£)</label>
+                            <div class="input-group offer-input-group">
+                                <span class="input-group-text bg-light border-end-0 px-3 fw-bold">£</span>
+                                <input type="number" name="offer_amount" class="form-control border-start-0 py-3" step="0.01"
+                                    required placeholder="e.g. 250000">
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label small fw-bold">Notes (Optional)</label>
+                            <textarea name="notes" class="form-control" rows="3"
+                                placeholder="Any strict conditions or comments..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-custom-pink w-100 py-3 fw-bold text-uppercase">Submit
+                            Offer</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Message Modal -->
+    <div class="modal fade" id="messageModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content border-0 rounded-4 shadow-lg">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold text-blue">Message Agent</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <p class="text-muted small mb-4" id="messageModalTitle"></p>
+                    <form action="{{ route('property.message.store') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="property_id" id="messagePropertyId">
+                        <div class="mb-4">
+                            <label class="form-label small fw-bold">Your Message</label>
+                            <textarea name="message" class="form-control" rows="5" required
+                                placeholder="I'm interested in this property. Can you provide more details?"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-blue w-100 py-3 fw-bold text-white text-uppercase">Send
+                            Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <style>
+        .favorite-btn {
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .favorite-btn:hover {
+            transform: scale(1.1);
+            background-color: #fff;
+        }
+
+        .action-btn {
+            transition: all 0.2s ease;
+            font-size: 0.8rem;
+        }
+
+        .action-btn:hover {
+            background-color: #f8f9fa;
+            border-color: #1E4072 !important;
+        }
+
         .object-fit-cover {
             object-fit: cover;
         }
@@ -258,50 +370,84 @@
         .text-pink {
             color: #F95CA8 !important;
         }
+
+        .offer-input-group .input-group-text,
+        .offer-input-group .form-control {
+            height: 55px !important;
+            display: flex;
+            align-items: center;
+        }
+
+        .btn-blue {
+            background-color: #1E4072;
+        }
     </style>
 
     @push('scripts')
-        <scriptsrc="https://maps.googleapis.com/maps/api/js?key=AIzaSyDtagAWzRL7h2Safzk7EwKK0x6v42RlsdI&libraries=places"></script>
-                <script>
-                    function initAutocomplete() {
-                        const input = document.getElementById('location-search');
-                        const options = {
-                            componentRestrictions: {
-                                country: "gb"
-                            },
-                            fields: ["address_components", "geometry", "icon", "name"],
-                            strictBounds: false,
-                        };
+        <script
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDtagAWzRL7h2Safzk7EwKK0x6v42RlsdI&libraries=places"></script>
+        <script>
+            // Modal Handling for List View
+            document.addEventListener('DOMContentLoaded', function () {
+                const offerModal = document.getElementById('offerModal');
+                if (offerModal) {
+                    offerModal.addEventListener('show.bs.modal', function (event) {
+                        const button = event.relatedTarget;
+                        const propertyId = button.getAttribute('data-property-id');
+                        const propertyTitle = button.getAttribute('data-property-title');
 
-                        const autocomplete = new google.maps.places.Autocomplete(input, options);
+                        document.getElementById('offerPropertyId').value = propertyId;
+                        document.getElementById('offerModalTitle').textContent = 'Property: ' + propertyTitle;
+                    });
+                }
 
-                        autocomplete.addListener("place_changed", () => {
-                            const place = autocomplete.getPlace();
+                const messageModal = document.getElementById('messageModal');
+                if (messageModal) {
+                    messageModal.addEventListener('show.bs.modal', function (event) {
+                        const button = event.relatedTarget;
+                        const propertyId = button.getAttribute('data-property-id');
+                        const propertyTitle = button.getAttribute('data-property-title');
 
-                            if (!place.geometry || !place.geometry.location) {
-                                return;
-                            }
+                        document.getElementById('messagePropertyId').value = propertyId;
+                        document.getElementById('messageModalTitle').textContent = 'Property: ' + propertyTitle;
+                    });
+                }
+            });
 
-                            document.getElementById('lat').value = place.geometry.location.lat();
-                            document.getElementById('lng').value = place.geometry.location.lng();
+            function initAutocomplete() {
+                const input = document.getElementById('location-search');
+                if (!input) return;
 
-                            // Automatically submit if location is selected
-                            // document.getElementById('filter-form').submit();
-                        });
+                const options = {
+                    componentRestrictions: {
+                        country: "gb"
+                    },
+                    fields: ["address_components", "geometry", "icon", "name"],
+                    strictBounds: false,
+                };
 
-                        // If user clears the input, clear lat/lng
-                        input.addEventListener('input', function () {
-                            if (this.value === '') {
-                                document.getElementById('lat').value = '';
-                                document.getElementById('lng').value = '';
-                            }
-                        });
+                const autocomplete = new google.maps.places.Autocomplete(input, options);
+
+                autocomplete.addListener("place_changed", () => {
+                    const place = autocomplete.getPlace();
+                    if (!place.geometry || !place.geometry.location) return;
+
+                    document.getElementById('lat').value = place.geometry.location.lat();
+                    document.getElementById('lng').value = place.geometry.location.lng();
+                });
+
+                input.addEventListener('input', function () {
+                    if (this.value === '') {
+                        document.getElementById('lat').value = '';
+                        document.getElementById('lng').value = '';
                     }
+                });
+            }
 
-                    if (typeof google === 'object' && typeof google.maps === 'object') {
-                        initAutocomplete();
-                    }
-                </script>
+            if (typeof google === 'object' && typeof google.maps === 'object') {
+                initAutocomplete();
+            }
+        </script>
     @endpush
 
 @endsection

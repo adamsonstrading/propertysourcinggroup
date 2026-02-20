@@ -223,9 +223,9 @@
                     <div class="col-lg-3 col-md-6">
                         <div
                             class="deal-card border-0 bg-transparent h-100 d-flex flex-column shadow-sm rounded-4 overflow-hidden">
-                            <div class="position-relative overflow-hidden" style="height: 180px;">
+                            <div class="position-relative overflow-hidden" style="height: 220px;">
                                 <img src="{{ $property->image_url ? (Str::startsWith($property->image_url, 'http') ? $property->image_url : asset('storage/' . $property->image_url)) : 'https://images.unsplash.com/photo-1560184897-ae75f3a84ec3?auto=format&fit=crop&q=80&w=400' }}"
-                                    class="w-100 h-100 object-fit-cover transition-transform" alt="{{ $property->location }}"
+                                    class="w-100 h-100" style="object-fit: cover;" alt="{{ $property->location }}"
                                     loading="lazy">
                             </div>
                             <!-- Location Bar -->
@@ -277,7 +277,9 @@
                         offering a personalized advice to you.</p>
                 </div>
                 <div class="col-lg-6">
-                    <img src="{{asset('img.jpg')}}" class="w-100 rounded-4 shadow" alt="Team">
+                    <div class="rounded-4 overflow-hidden shadow" style="height: 400px;">
+                        <img src="{{asset('img.jpg')}}" class="w-100 h-100" style="object-fit: cover;" alt="Team">
+                    </div>
                 </div>
             </div>
         </div>
@@ -320,7 +322,9 @@
         <div class="container py-5">
             <div class="row align-items-center">
                 <div class="col-lg-5 mb-5 mb-lg-0">
-                    <img src="{{asset('seller.jpg')}}" class="w-100 rounded-4 shadow" alt="CEO">
+                    <div class="rounded-4 overflow-hidden shadow" style="height: 450px;">
+                        <img src="{{asset('seller.jpg')}}" class="w-100 h-100" style="object-fit: cover;" alt="CEO">
+                    </div>
                 </div>
                 <div class="col-lg-7">
                     <h2 class="display-5 fw-bold mb-4">WE'RE MORE THAN YOUR AVERAGE PROPERTY SELLER</h2>
