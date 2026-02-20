@@ -7,12 +7,14 @@
                 <div class="login-container shadow-lg">
                     <div class="row g-0">
                         <!-- Left Side: Decorative/Information -->
-                        <div class="col-lg-5 d-none d-lg-flex login-hero"
-                            style="background: linear-gradient(rgba(30, 64, 114, 0.9), rgba(30, 64, 114, 0.9)), url('https://images.unsplash.com/photo-1570129477492-45c003edd2be?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'); background-size: cover; background-position: center;">
+                        <div class="col-lg-5 d-none d-lg-flex login-hero" style="background: linear-gradient(rgba(30, 64, 114, 0.9), rgba(30, 64, 114, 0.9)), 
+                                url('https://images.unsplash.com/photo-1570129477492-45c003edd2be?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'); 
+                                background-size: cover; background-position: center;">
                             <div class="p-5 text-white w-100 mt-auto">
                                 <h2 class="display-6 fw-bold mb-3">Welcome Back!</h2>
-                                <p class="opacity-75 mb-4">Log in to your account to manage your property portfolio and track your investment opportunities.</p>
-                                
+                                <p class="opacity-75 mb-4">Log in to your account to manage your property portfolio and
+                                    track your investment opportunities.</p>
+
                                 <div class="login-feature mb-3">
                                     <i class="bi bi-check2-circle text-pink me-2"></i>
                                     <span class="small opacity-75">Access Exclusive Deals</span>
@@ -35,6 +37,12 @@
                                 <p class="text-muted small">Please enter your credentials to access your account</p>
                             </div>
 
+                            @if (session('success'))
+                                <div class="alert alert-success border-0 shadow-sm small py-2 mb-4 text-center">
+                                    {{ session('success') }}
+                                </div>
+                            @endif
+
                             @if ($errors->any())
                                 <div class="alert alert-danger border-0 shadow-sm small py-2 mb-4 text-center">
                                     @foreach ($errors->all() as $error)
@@ -46,31 +54,33 @@
                             <form action="{{ route('login.submit') }}" method="POST">
                                 @csrf
                                 <div class="mb-4">
-                                    <label class="form-label small fw-600 text-uppercase tracking-wider">Email Address</label>
+                                    <label class="form-label small fw-600 text-uppercase tracking-wider">Email
+                                        Address</label>
                                     <div class="input-group-modern">
                                         <i class="bi bi-envelope icon"></i>
-                                        <input type="email" name="email" class="form-control"
-                                            placeholder="your@email.com" value="{{ old('email') }}" required autofocus>
+                                        <input type="email" name="email" class="form-control" placeholder="your@email.com"
+                                            value="{{ old('email') }}" required autofocus>
                                     </div>
                                 </div>
 
                                 <div class="mb-4">
                                     <div class="d-flex justify-content-between">
-                                        <label class="form-label small fw-600 text-uppercase tracking-wider">Password</label>
-                                        @if (Route::has('password.request'))
-                                            <a href="{{ route('password.request') }}" class="text-pink small text-decoration-none fw-bold">Forgot?</a>
-                                        @endif
+                                        <label
+                                            class="form-label small fw-600 text-uppercase tracking-wider">Password</label>
+                                        <a href="{{ route('password.request') }}"
+                                            class="text-pink small text-decoration-none fw-bold">Forgot?</a>
                                     </div>
                                     <div class="input-group-modern">
                                         <i class="bi bi-lock icon"></i>
-                                        <input type="password" name="password" class="form-control"
-                                            placeholder="••••••••" required>
+                                        <input type="password" name="password" class="form-control" placeholder="••••••••"
+                                            required>
                                     </div>
                                 </div>
 
                                 <div class="mb-4 d-flex align-items-center">
                                     <div class="form-check">
-                                        <input class="form-check-input custom-check" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                                        <input class="form-check-input custom-check" type="checkbox" name="remember"
+                                            id="remember" {{ old('remember') ? 'checked' : '' }}>
                                         <label class="form-check-label small text-muted ms-1" for="remember">
                                             Keep me signed in
                                         </label>
@@ -82,8 +92,9 @@
                                 </button>
 
                                 <div class="text-center">
-                                    <p class="text-muted small">Don't have an account yet? 
-                                        <a href="{{ route('register') }}" class="text-pink fw-bold text-decoration-none">Create Account</a>
+                                    <p class="text-muted small">Don't have an account yet?
+                                        <a href="{{ route('register') }}"
+                                            class="text-pink fw-bold text-decoration-none">Create Account</a>
                                     </p>
                                 </div>
                             </form>

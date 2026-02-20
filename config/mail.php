@@ -49,6 +49,16 @@ return [
             'local_domain' => env('MAIL_EHLO_DOMAIN', parse_url((string) env('APP_URL', 'http://localhost'), PHP_URL_HOST)),
         ],
 
+        'no_reply' => [
+            'transport' => 'smtp',
+            'host' => env('MAIL_HOST', 'smtp.ionos.co.uk'),
+            'port' => env('MAIL_PORT', 587),
+            'encryption' => env('MAIL_ENCRYPTION', 'tls'),
+            'username' => env('MAIL_NOREPLY_USERNAME'),
+            'password' => env('MAIL_NOREPLY_PASSWORD'),
+            'timeout' => null,
+        ],
+
         'ses' => [
             'transport' => 'ses',
         ],

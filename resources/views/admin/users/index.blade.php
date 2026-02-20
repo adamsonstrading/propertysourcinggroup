@@ -71,8 +71,33 @@
 
     <!-- Users Table -->
     <div class="content-card">
-        <div class="card-header">
-            <h5><i class="bi bi-person-lines-fill me-2"></i>User Accounts</h5>
+        <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-3">
+            <h5 class="mb-0"><i class="bi bi-person-lines-fill me-2"></i>User Accounts</h5>
+            
+            <!-- Filters -->
+            <form action="{{ route('admin.users.index') }}" method="GET" class="d-flex flex-wrap gap-2">
+                <div class="input-group input-group-sm" style="width: 250px;">
+                    <span class="input-group-text bg-white"><i class="bi bi-search"></i></span>
+                    <input type="text" name="search" class="form-control" placeholder="Search name or email..." value="{{ request('search') }}">
+                </div>
+                
+                <select name="role" class="form-select form-select-sm" style="width: 130px;" onchange="this.form.submit()">
+                    <option value="">All Roles</option>
+                    <option value="user" {{ request('role') == 'user' ? 'selected' : '' }}>User</option>
+                    <option value="agent" {{ request('role') == 'agent' ? 'selected' : '' }}>Agent</option>
+                    <option value="admin" {{ request('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+                </select>
+                
+                <select name="status" class="form-select form-select-sm" style="width: 130px;" onchange="this.form.submit()">
+                    <option value="">All Status</option>
+                    <option value="1" {{ request('status') == '1' ? 'selected' : '' }}>Approved</option>
+                    <option value="0" {{ request('status') === '0' ? 'selected' : '' }}>Pending</option>
+                </select>
+                
+                @if(request()->anyFilled(['search', 'role', 'status']))
+                    <a href="{{ route('admin.users.index') }}" class="btn btn-sm btn-outline-secondary">Reset</a>
+                @endif
+            </form>
         </div>
         <div class="card-body p-0">
             <div class="table-responsive">
@@ -80,6 +105,7 @@
                     <thead class="bg-light text-muted small text-uppercase">
                         <tr>
                             <th class="ps-4">User Details</th>
+                            <th>Role</th>
                             <th>Contact</th>
                             <th>Investment Interest</th>
                             <th>Status</th>
@@ -97,18 +123,22 @@
                                         </div>
                                         <div>
                                             <div class="fw-bold text-dark">{{ $user->name }}</div>
-                                            <div class="small text-muted text-capitalize">{{ $user->role }}</div>
+                                            <div class="small text-muted">{{ $user->email }}</div>
                                         </div>
                                     </div>
                                 </td>
                                 <td>
-                                    <div class="small fw-500 mb-1">
-                                        <i class="bi bi-envelope me-2"></i>{{ $user->email }}
-                                    </div>
+                                    <span class="badge {{ $user->role === 'admin' ? 'bg-danger' : ($user->role === 'agent' ? 'bg-primary' : 'bg-secondary') }} text-capitalize">
+                                        {{ $user->role }}
+                                    </span>
+                                </td>
+                                <td>
                                     @if($user->phone)
                                         <div class="small text-muted">
                                             <i class="bi bi-telephone me-2"></i>{{ $user->phone }}
                                         </div>
+                                    @else
+                                        <span class="text-muted small">No Phone</span>
                                     @endif
                                 </td>
                                 <td>
