@@ -44,7 +44,7 @@
                                 <div class="bg-pink-soft p-2 rounded-circle">
                                     <i class="bi bi-telephone-fill text-pink fs-4"></i>
                                 </div>
-                                <span class="fs-5 fw-bold">0203 411 3603</span>
+                                <span class="fs-5 fw-bold">075 0089 6792</span>
                             </div>
                             <div class="d-flex align-items-center gap-3">
                                 <div class="bg-pink-soft p-2 rounded-circle">

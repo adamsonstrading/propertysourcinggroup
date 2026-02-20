@@ -593,8 +593,8 @@
                         <!-- Phone -->
                         <div class="d-flex align-items-center">
                             <i class="bi bi-telephone-fill me-2 text-pink small"></i>
-                            <a href="tel:02034113603" class="fw-bold text-blue text-decoration-none small">0203 411
-                                3603</a>
+                            <a href="tel:07500896792"
+                                class="fw-bold text-blue text-decoration-none small">07500896792</a>
                         </div>
 
                         <!-- Email -->
@@ -611,7 +611,7 @@
                             class="social-facebook"><i class="bi bi-facebook"></i></a>
                         <a href="https://instagram.com/propertysourcinggroup" target="_blank"
                             class="social-instagram"><i class="bi bi-instagram"></i></a>
-                        <a href="https://wa.me/+442034113603" target="_blank" class="social-whatsapp"><i
+                        <a href="https://wa.me/+447500896792" target="_blank" class="social-whatsapp"><i
                                 class="bi bi-whatsapp"></i></a>
                     </div>
 
@@ -746,7 +746,7 @@
                             class="social-icon social-facebook"><i class="bi bi-facebook"></i></a>
                         <a href="https://instagram.com/propertysourcinggroup" target="_blank"
                             class="social-icon social-instagram"><i class="bi bi-instagram"></i></a>
-                        <a href="https://wa.me/+442034113603" class="social-icon social-whatsapp"><i
+                        <a href="https://wa.me/+447500896792" class="social-icon social-whatsapp"><i
                                 class="bi bi-whatsapp"></i></a>
                     </div>
                 </div>
@@ -765,7 +765,7 @@
                         <li class="d-flex mb-3"><i class="bi bi-geo-alt text-pink me-3"></i> 5-7 High Street London
                             United Kingdom. E
                             13 0AD</li>
-                        <li class="d-flex mb-3"><i class="bi bi-telephone text-pink me-3"></i> 0203 411 3603</li>
+                        <li class="d-flex mb-3"><i class="bi bi-telephone text-pink me-3"></i>07500896792</li>
                         <li class="d-flex mb-3"><i class="bi bi-envelope text-pink me-3"></i>
                             info@propertysourcinggroup.co.uk</li>
                     </ul>
@@ -780,7 +780,7 @@
     </footer>
 
     <!-- WhatsApp Floating Button -->
-    <a href="https://wa.me/+442034113603" class="whatsapp-float" target="_blank">
+    <a href="https://wa.me/+447500896792" class="whatsapp-float" target="_blank">
         <i class="bi bi-whatsapp"></i>
     </a>
 
