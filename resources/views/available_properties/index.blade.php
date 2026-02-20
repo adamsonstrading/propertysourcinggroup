@@ -3,124 +3,123 @@
 @section('content')
 
     <!-- Hero Section -->
-    <section class="py-5 bg-blue text-white text-center">
-        <div class="container py-2">
-            <h1 class="display-4 fw-bold">Available Properties</h1>
-            <p class="lead mb-0 opacity-75">Exclusive property investment deals for our members</p>
-        </div>
-    </section>
-
-    <!-- Filter Section -->
-    <section class="py-3 bg-white border-bottom shadow-sm mt-n1">
-        <div class="container">
-            <!-- Mobile Toggle Button -->
-            <div class="d-lg-none mb-3">
-                <button
-                    class="btn btn-outline-blue w-100 d-flex justify-content-between align-items-center py-2 px-3 rounded-3 fw-bold"
-                    type="button" data-bs-toggle="collapse" data-bs-target="#propertyFilters">
-                    <span><i class="bi bi-sliders2 me-2"></i>Filter Properties</span>
-                    <i class="bi bi-chevron-down"></i>
-                </button>
+    <section class="available-properties-hero py-5 position-relative overflow-hidden">
+        <div class="hero-overlay"></div>
+        <div class="container py-lg-5 position-relative z-1">
+            <div class="text-center mb-5">
+                <h1 class="display-3 fw-800 text-white mb-3">Available Properties</h1>
+                <p class="lead text-white opacity-90 mx-auto" style="max-width: 600px;">
+                    Discover exclusive off-market property investment deals curated by the UK's leading sourcing agents.
+                </p>
             </div>
 
-            <!-- Filter Content -->
-            <div class="collapse d-lg-block" id="propertyFilters">
-                <div class="filter-wrapper p-3 p-md-4 rounded-4 bg-white border shadow-sm">
-                    <form action="{{ route('available-properties.index') }}" method="GET" id="filter-form">
-                        <div class="row g-3 align-items-end">
-                            <!-- Location -->
-                            <div class="col-lg-3">
-                                <label class="fw-bold small text-uppercase mb-2 d-block"
-                                    style="color: #1E4072; font-size: 0.7rem; letter-spacing: 0.5px;">Location &
-                                    Radius</label>
-                                <div class="input-group search-group">
-                                    <span class="input-group-text bg-light border-end-0"><i
-                                            class="bi bi-geo-alt text-pink"></i></span>
-                                    <input type="text" id="location-search" class="form-control border-start-0 ps-0"
-                                        placeholder="City / Postcode" value="{{ request('location') }}" name="location">
-                                    <select name="radius" class="form-select bg-light"
-                                        style="max-width: 85px; border-left: 1px solid #dee2e6;">
-                                        <option value="5" {{ request('radius') == 5 ? 'selected' : '' }}>5mi</option>
-                                        <option value="10" {{ request('radius') == 10 || !request('radius') ? 'selected' : '' }}>10mi</option>
-                                        <option value="20" {{ request('radius') == 20 ? 'selected' : '' }}>20mi</option>
-                                        <option value="50" {{ request('radius') == 50 ? 'selected' : '' }}>50mi</option>
+            <!-- Filter Section Integrated -->
+            <div class="filter-container mx-auto" style="max-width: 1100px;">
+                <!-- Mobile Toggle Button -->
+                <div class="d-lg-none mb-3">
+                    <button
+                        class="btn btn-primary w-100 d-flex justify-content-between align-items-center py-3 px-4 rounded-4 fw-bold shadow-lg"
+                        type="button" data-bs-toggle="collapse" data-bs-target="#propertyFilters">
+                        <span><i class="bi bi-sliders2 me-2"></i>Filter Your Search</span>
+                        <i class="bi bi-chevron-down"></i>
+                    </button>
+                </div>
+
+                <!-- Filter Content -->
+                <div class="collapse d-lg-block" id="propertyFilters">
+                    <div class="filter-wrapper p-4 p-lg-5 rounded-5 bg-white border-0 shadow-2xl">
+                        <form action="{{ route('available-properties.index') }}" method="GET" id="filter-form">
+                            <!-- Line 1: Primary Discovery -->
+                            <div class="row g-3 mb-4 last-mb-0 border-bottom-lg">
+                                <div class="col-lg-7">
+                                    <label class="filter-label">Where would you like to invest?</label>
+                                    <div class="input-group premium-input-group shadow-sm">
+                                        <span class="input-group-text bg-white border-end-0"><i
+                                                class="bi bi-geo-alt-fill text-pink"></i></span>
+                                        <input type="text" id="location-search" class="form-control border-start-0 py-3"
+                                            placeholder="City, Area or Postcode..." value="{{ request('location') }}"
+                                            name="location">
+                                        <select name="radius" class="form-select radius-select border-start">
+                                            <option value="">No Radius</option>
+                                            <option value="5" {{ request('radius') == 5 ? 'selected' : '' }}>5 miles</option>
+                                            <option value="10" {{ request('radius') == 10 ? 'selected' : '' }}>10 miles
+                                            </option>
+                                            <option value="20" {{ request('radius') == 20 ? 'selected' : '' }}>20 miles
+                                            </option>
+                                            <option value="50" {{ request('radius') == 50 ? 'selected' : '' }}>50 miles
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <input type="hidden" name="lat" id="lat" value="{{ request('lat') }}">
+                                    <input type="hidden" name="lng" id="lng" value="{{ request('lng') }}">
+                                </div>
+                                <div class="col-lg-5">
+                                    <label class="filter-label">Budget Range (£)</label>
+                                    <div class="input-group premium-input-group shadow-sm">
+                                        <span class="input-group-text bg-white px-3">Min</span>
+                                        <input type="number" name="min_price" class="form-control border-end-0 py-3"
+                                            placeholder="£0" value="{{ request('min_price') }}">
+                                        <span
+                                            class="input-group-text bg-white px-2 border-start-0 border-end-0 text-muted">to</span>
+                                        <input type="number" name="max_price" class="form-control border-start-0 py-3"
+                                            placeholder="Max" value="{{ request('max_price') }}">
+                                        <span class="input-group-text bg-white px-3">Max</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Line 2: Specific Requirements -->
+                            <div class="row g-3 align-items-end">
+                                <div class="col-lg-4 col-md-6">
+                                    <label class="filter-label"><i class="bi bi-house-door-fill me-1 text-blue"></i>
+                                        Property Type</label>
+                                    <select name="property_type" class="form-select premium-select py-3">
+                                        <option value="">All Property Types</option>
+                                        @foreach($propertyTypes as $type)
+                                            <option value="{{ $type->id }}" {{ request('property_type') == $type->id ? 'selected' : '' }}>{{ $type->name }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
-                                <input type="hidden" name="lat" id="lat" value="{{ request('lat') }}">
-                                <input type="hidden" name="lng" id="lng" value="{{ request('lng') }}">
-                            </div>
-
-                            <!-- Price -->
-                            <div class="col-lg-3">
-                                <label class="fw-bold small text-uppercase mb-2 d-block"
-                                    style="color: #1E4072; font-size: 0.7rem; letter-spacing: 0.5px;">Price Range
-                                    (£)</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light pe-2">£</span>
-                                    <input type="number" name="min_price" class="form-control text-center" placeholder="Min"
-                                        value="{{ request('min_price') }}">
-                                    <span class="input-group-text bg-light px-1 border-start-0 border-end-0">-</span>
-                                    <input type="number" name="max_price" class="form-control text-center" placeholder="Max"
-                                        value="{{ request('max_price') }}">
-                                </div>
-                            </div>
-
-                            <!-- Type -->
-                            <div class="col-lg-2">
-                                <label class="fw-bold small text-uppercase mb-2 d-block"
-                                    style="color: #1E4072; font-size: 0.7rem; letter-spacing: 0.5px;">Type</label>
-                                <select name="property_type" class="form-select">
-                                    <option value="">All Types</option>
-                                    @foreach($propertyTypes as $type)
-                                        <option value="{{ $type->id }}" {{ request('property_type') == $type->id ? 'selected' : '' }}>{{ $type->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <!-- Beds & Baths -->
-                            <div class="col-lg-3">
-                                <label class="fw-bold small text-uppercase mb-2 d-block"
-                                    style="color: #1E4072; font-size: 0.7rem; letter-spacing: 0.5px;">Beds & Baths</label>
-                                <div class="d-flex gap-2">
-                                    <select name="bedrooms" class="form-select">
-                                        <option value="">Beds</option>
+                                <div class="col-lg-3 col-md-6">
+                                    <label class="filter-label"><i class="bi bi-door-open-fill me-1 text-blue"></i>
+                                        Bedrooms</label>
+                                    <select name="bedrooms" class="form-select premium-select py-3">
+                                        <option value="">Any Beds</option>
                                         @for($i = 1; $i <= 6; $i++)
                                             <option value="{{ $i }}" {{ request('bedrooms') == $i ? 'selected' : '' }}>{{ $i }}+
-                                            </option>
-                                        @endfor
-                                    </select>
-                                    <select name="bathrooms" class="form-select">
-                                        <option value="">Baths</option>
-                                        @for($i = 1; $i <= 4; $i++)
-                                            <option value="{{ $i }}" {{ request('bathrooms') == $i ? 'selected' : '' }}>{{ $i }}+
-                                            </option>
+                                                Beds</option>
                                         @endfor
                                     </select>
                                 </div>
+                                <div class="col-lg-3 col-md-6">
+                                    <label class="filter-label"><i class="bi bi-droplet-fill me-1 text-blue"></i>
+                                        Bathrooms</label>
+                                    <select name="bathrooms" class="form-select premium-select py-3">
+                                        <option value="">Any Baths</option>
+                                        @for($i = 1; $i <= 4; $i++)
+                                            <option value="{{ $i }}" {{ request('bathrooms') == $i ? 'selected' : '' }}>{{ $i }}+
+                                                Baths</option>
+                                        @endfor
+                                    </select>
+                                </div>
+                                <div class="col-lg-2 col-md-12">
+                                    <button type="submit" class="btn btn-custom-pink w-100 fw-800 search-btn-main py-3">
+                                        <i class="bi bi-search me-2"></i> SEARCH
+                                    </button>
+                                </div>
                             </div>
 
-                            <!-- Button -->
-                            <div class="col-lg-1">
-                                <label class="d-none d-lg-block mb-4">&nbsp;</label>
-                                <button type="submit"
-                                    class="btn btn-custom-pink w-100 fw-bold d-flex align-items-center justify-content-center"
-                                    style="height: 48px; border-radius: 8px;margin-bottom:14px">
-                                    <i class="bi bi-search me-1 d-xl-none"></i><span>Search</span>
-                                </button>
-                            </div>
-                        </div>
-
-
-
-                        @if(request()->anyFilled(['location', 'min_price', 'max_price', 'property_type', 'bedrooms', 'bathrooms']))
-                            <div class="mt-3 text-center text-lg-start">
-                                <a href="{{ route('available-properties.index') }}"
-                                    class="text-pink text-decoration-none small fw-bold">
-                                    <i class="bi bi-arrow-counterclockwise me-1"></i> Reset Filters
-                                </a>
-                            </div>
-                        @endif
-                    </form>
+                            @if(request()->anyFilled(['location', 'min_price', 'max_price', 'property_type', 'bedrooms', 'bathrooms']))
+                                <div class="mt-4 d-flex align-items-center justify-content-between border-top pt-3">
+                                    <span class="text-muted small">Showing results for your preferences...</span>
+                                    <a href="{{ route('available-properties.index') }}"
+                                        class="text-pink text-decoration-none small fw-bold hover-underline">
+                                        <i class="bi bi-arrow-counterclockwise me-1"></i> Reset Filters
+                                    </a>
+                                </div>
+                            @endif
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -246,8 +245,8 @@
                             <label class="form-label small fw-bold">Your Offer Amount (£)</label>
                             <div class="input-group offer-input-group">
                                 <span class="input-group-text bg-light border-end-0 px-3 fw-bold">£</span>
-                                <input type="number" name="offer_amount" class="form-control border-start-0 py-3" step="0.01"
-                                    required placeholder="e.g. 250000">
+                                <input type="number" name="offer_amount" class="form-control border-start-0 py-3"
+                                    step="0.01" required placeholder="e.g. 250000">
                             </div>
                         </div>
                         <div class="mb-4">
@@ -322,31 +321,144 @@
             background-color: #f8f9fa;
         }
 
-        .filter-wrapper .form-label {
-            font-size: 0.75rem;
+        .available-properties-hero {
+            background-image: url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            min-height: 550px;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(30, 64, 114, 0.95) 0%, rgba(30, 64, 114, 0.6) 100%);
+        }
+
+        .z-1 {
+            z-index: 1;
+        }
+
+        .fw-800 {
+            font-weight: 800;
+        }
+
+        .opacity-90 {
+            opacity: 0.9;
+        }
+
+        .shadow-2xl {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+        }
+
+        .rounded-5 {
+            border-radius: 2rem !important;
+        }
+
+        .filter-label {
+            font-size: 0.7rem;
             color: #1E4072;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
             text-transform: uppercase;
+            font-weight: 800;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .premium-input-group {
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        .premium-input-group:focus-within {
+            border-color: var(--primary-pink);
+            box-shadow: 0 0 0 4px rgba(249, 92, 168, 0.1) !important;
+        }
+
+        .premium-input-group .input-group-text {
+            background-color: transparent;
+            border: none;
+            color: #64748b;
+            padding-left: 20px;
+        }
+
+        .premium-input-group .form-control {
+            border: none;
+            font-weight: 500;
+            box-shadow: none !important;
+            height: 55px !important;
+        }
+
+        .radius-select {
+            border: none !important;
+            background-color: #ffffff !important;
+            max-width: 120px;
             font-weight: 700;
+            color: var(--primary-blue);
+            border-left: 1px solid #e2e8f0 !important;
         }
 
-        .filter-wrapper .form-control,
-        .filter-wrapper .form-select,
-        .filter-wrapper .input-group-text,
-        .filter-wrapper .btn {
-            height: 48px !important;
-            font-size: 0.9rem;
-            border-radius: 8px !important;
+        .premium-select {
+            height: 55px !important;
+            border-radius: 15px !important;
+            border: 1px solid #e2e8f0 !important;
+            background-color: #ffffff !important;
+            font-weight: 600;
+            color: var(--primary-blue);
         }
 
-        .filter-wrapper .input-group {
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+        .search-btn-main {
+            background: linear-gradient(135deg, var(--primary-pink) 0%, #ff89c1 100%);
+            border: none;
+            box-shadow: 0 10px 20px rgba(249, 92, 168, 0.3);
+            font-size: 1rem;
+            color: white !important;
+            border-radius: 15px !important;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            letter-spacing: 1px;
+            height: 55px !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .filter-wrapper .form-control:focus,
-        .filter-wrapper .form-select:focus {
-            border-color: #F95CA8;
-            box-shadow: 0 0 0 0.25rem rgba(249, 92, 168, 0.1);
+        .search-btn-main:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(249, 92, 168, 0.4);
+            background: linear-gradient(135deg, #ff89c1 0%, var(--primary-pink) 100%);
+        }
+
+        .available-properties-hero .container {
+            z-index: 2;
+        }
+
+        @media (min-width: 992px) {
+            .border-bottom-lg {
+                border-bottom: 1px solid #f1f5f9 !important;
+            }
+        }
+
+        @media (max-width: 991px) {
+            .available-properties-hero {
+                min-height: auto;
+                padding-bottom: 80px !important;
+            }
+
+            .filter-container {
+                margin-top: 20px;
+            }
+        }
+
+        .hover-underline:hover {
+            text-decoration: underline !important;
         }
 
         .bg-gradient-dark {
@@ -379,7 +491,17 @@
         }
 
         .btn-blue {
-            background-color: #1E4072;
+            background-color: #1E4072 !important;
+            color: white !important;
+            border: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-blue:hover {
+            background-color: #152d50 !important;
+            color: white !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(30, 64, 114, 0.3);
         }
     </style>
 

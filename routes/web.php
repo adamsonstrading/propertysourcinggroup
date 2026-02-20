@@ -70,6 +70,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/available-properties', [App\Http\Controllers\AvailablePropertyController::class, 'index'])->name('available-properties.index');
     Route::get('/available-properties/{id}', [App\Http\Controllers\AvailablePropertyController::class, 'show'])->name('available-properties.show');
+    Route::get('/available-properties/{id}/brochure', [App\Http\Controllers\AvailablePropertyController::class, 'downloadBrochure'])->name('available-properties.brochure');
+
 
     // Property Actions
     Route::post('/property/offer', [App\Http\Controllers\PropertyOfferController::class, 'store'])->name('property.offer.store');

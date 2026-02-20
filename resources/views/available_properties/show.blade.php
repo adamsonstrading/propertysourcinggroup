@@ -99,7 +99,8 @@
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item d-flex justify-content-between">
                                     <span class="text-muted">Investment Strategy</span>
-                                    <span class="fw-bold">{{ ucfirst(str_replace('_', ' ', $property->investment_type)) }}</span>
+                                    <span
+                                        class="fw-bold">{{ ucfirst(str_replace('_', ' ', $property->investment_type)) }}</span>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between">
                                     <span class="text-muted">Current Value</span>
@@ -154,15 +155,24 @@
                         <div class="col-md-6">
                             <div class="p-3 bg-light rounded">
                                 <h6 class="fw-bold"><i class="fas fa-fire text-danger me-2"></i>Gas Safety</h6>
-                                <p class="mb-1 small text-muted">Issue: {{ $property->gas_safety_issue_date ? $property->gas_safety_issue_date->format('d M Y') : 'N/A' }}</p>
-                                <p class="mb-0 small text-muted">Expiry: {{ $property->gas_safety_expiry_date ? $property->gas_safety_expiry_date->format('d M Y') : 'N/A' }}</p>
+                                <p class="mb-1 small text-muted">Issue:
+                                    {{ $property->gas_safety_issue_date ? $property->gas_safety_issue_date->format('d M Y') : 'N/A' }}
+                                </p>
+                                <p class="mb-0 small text-muted">Expiry:
+                                    {{ $property->gas_safety_expiry_date ? $property->gas_safety_expiry_date->format('d M Y') : 'N/A' }}
+                                </p>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="p-3 bg-light rounded">
-                                <h6 class="fw-bold"><i class="fas fa-bolt text-warning me-2"></i>Electrical Safety (EICR)</h6>
-                                <p class="mb-1 small text-muted">Issue: {{ $property->electrical_issue_date ? $property->electrical_issue_date->format('d M Y') : 'N/A' }}</p>
-                                <p class="mb-0 small text-muted">Expiry: {{ $property->electrical_expiry_date ? $property->electrical_expiry_date->format('d M Y') : 'N/A' }}</p>
+                                <h6 class="fw-bold"><i class="fas fa-bolt text-warning me-2"></i>Electrical Safety (EICR)
+                                </h6>
+                                <p class="mb-1 small text-muted">Issue:
+                                    {{ $property->electrical_issue_date ? $property->electrical_issue_date->format('d M Y') : 'N/A' }}
+                                </p>
+                                <p class="mb-0 small text-muted">Expiry:
+                                    {{ $property->electrical_expiry_date ? $property->electrical_expiry_date->format('d M Y') : 'N/A' }}
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -215,24 +225,34 @@
                         </form>
 
                         <div class="d-grid gap-2">
-                             <!-- Favorite Button -->
+                            <!-- Favorite Button -->
                             <form action="{{ route('property.favorite.toggle', $property->id) }}" method="POST">
                                 @csrf
-                                <button type="submit" class="btn w-100 {{ $property->isFavoritedBy(auth()->user()) ? 'btn-danger' : 'btn-outline-secondary' }}">
-                                    <i class="bi {{ $property->isFavoritedBy(auth()->user()) ? 'bi-heart-fill' : 'bi-heart' }} me-2"></i>
+                                <button type="submit"
+                                    class="btn w-100 {{ $property->isFavoritedBy(auth()->user()) ? 'btn-danger' : 'btn-outline-secondary' }}">
+                                    <i
+                                        class="bi {{ $property->isFavoritedBy(auth()->user()) ? 'bi-heart-fill' : 'bi-heart' }} me-2"></i>
                                     {{ $property->isFavoritedBy(auth()->user()) ? 'Remove from Favorites' : 'Add to Favorites' }}
                                 </button>
                             </form>
 
                             <!-- Offer Button -->
-                            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#offerModal">
+                            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
+                                data-bs-target="#offerModal">
                                 <i class="bi bi-tag-fill me-2"></i>Make an Offer
                             </button>
 
                             <!-- Message Button -->
-                            <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#messageModal">
+                            <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal"
+                                data-bs-target="#messageModal">
                                 <i class="bi bi-chat-dots-fill me-2"></i>Message Agent
                             </button>
+
+                            <!-- Download Brochure Button -->
+                            <a href="{{ route('available-properties.brochure', $property->id) }}"
+                                class="btn btn-custom-blue w-100 py-3 mt-2 fw-bold">
+                                <i class="bi bi-file-earmark-pdf-fill me-2"></i>Download Brochure
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -258,7 +278,8 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Notes (Optional)</label>
-                            <textarea name="notes" class="form-control" rows="3" placeholder="Any strict conditions or comments..."></textarea>
+                            <textarea name="notes" class="form-control" rows="3"
+                                placeholder="Any strict conditions or comments..."></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -284,7 +305,8 @@
                     <div class="modal-body">
                         <div class="mb-3">
                             <label class="form-label">Message</label>
-                            <textarea name="message" class="form-control" rows="5" required placeholder="Type your message here..."></textarea>
+                            <textarea name="message" class="form-control" rows="5" required
+                                placeholder="Type your message here..."></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">

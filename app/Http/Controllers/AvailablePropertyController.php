@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\AvailableProperty;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class AvailablePropertyController extends Controller
 {
@@ -41,8 +42,10 @@ class AvailablePropertyController extends Controller
             $lng = $request->lng;
             $radius = $request->radius; // in miles
 
-            $query->selectRaw("*, ( 3959 * acos( cos( radians(?) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(?) ) + sin( radians(?) ) * sin( radians( latitude ) ) ) ) AS distance", [$lat, $lng, $lat])
+            $query->selectRaw("available_properties.*, ( 3959 * acos( cos( radians(?) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(?) ) + sin( radians(?) ) * sin( radians( latitude ) ) ) ) AS distance", [$lat, $lng, $lat])
                 ->having("distance", "<=", $radius);
+        } elseif ($request->filled('location')) {
+            $query->where('location', 'like', '%' . $request->location . '%');
         }
 
         $properties = $query->with(['propertyType', 'marketingPurpose'])->latest()->paginate(12)->withQueryString();
@@ -367,6 +370,22 @@ class AvailablePropertyController extends Controller
         $property->delete();
 
         return redirect()->route('admin.available-properties.index')->with('success', 'Property deleted successfully');
+    }
+
+    public function downloadBrochure($id)
+    {
+        try {
+            $property = AvailableProperty::with(['propertyType', 'marketingPurpose', 'unitType', 'features', 'costs'])->findOrFail($id);
+            $user = auth()->user();
+
+            $pdf = Pdf::loadView('available_properties.brochure', compact('property', 'user'));
+            $pdf->setPaper('a4', 'portrait');
+
+            return $pdf->download('Brochure_' . str_replace(' ', '_', $property->headline) . '.pdf');
+        } catch (\Exception $e) {
+            \Log::error('Brochure download error: ' . $e->getMessage());
+            return back()->with('error', 'Could not generate brochure: ' . $e->getMessage());
+        }
     }
 
     public function show($id)
