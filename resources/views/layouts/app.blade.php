@@ -566,6 +566,10 @@
             align-items: center;
             justify-content: center;
         }
+
+        .pink-icon {
+            filter: brightness(0) saturate(100%) invert(55%) sepia(77%) saturate(3800%) hue-rotate(305deg) brightness(102%) contrast(101%);
+        }
     </style>
     @stack('styles')
 </head>
@@ -593,8 +597,8 @@
                         <!-- Phone -->
                         <div class="d-flex align-items-center">
                             <i class="bi bi-telephone-fill me-2 text-pink small"></i>
-                            <a href="tel:07500896792"
-                                class="fw-bold text-blue text-decoration-none small">07500896792</a>
+                            <a href="tel:02034680480"
+                                class="fw-bold text-blue text-decoration-none small">02034680480</a>
                         </div>
 
                         <!-- Email -->
@@ -611,14 +615,13 @@
                             class="social-facebook"><i class="bi bi-facebook"></i></a>
                         <a href="https://instagram.com/propertysourcinggroup" target="_blank"
                             class="social-instagram"><i class="bi bi-instagram"></i></a>
-                        <a href="https://wa.me/+447500896792" target="_blank" class="social-whatsapp"><i
+                        <a href="https://wa.me/+442034680480" target="_blank" class="social-whatsapp"><i
                                 class="bi bi-whatsapp"></i></a>
                     </div>
 
                     <!-- CTA -->
                     <div
                         class="d-flex flex-nowrap gap-2 ms-md-2 mt-3 mt-md-0 justify-content-center justify-content-md-end">
-                        <a href="{{ route('investor-event') }}" class="btn btn-event text-nowrap px-3">Join Event</a>
                         <a href="{{ route('become-investor') }}" class="btn btn-custom-pink text-nowrap px-3">Invest
                             Now</a>
                     </div>
@@ -746,7 +749,7 @@
                             class="social-icon social-facebook"><i class="bi bi-facebook"></i></a>
                         <a href="https://instagram.com/propertysourcinggroup" target="_blank"
                             class="social-icon social-instagram"><i class="bi bi-instagram"></i></a>
-                        <a href="https://wa.me/+447500896792" class="social-icon social-whatsapp"><i
+                        <a href="https://wa.me/+442034680480" class="social-icon social-whatsapp"><i
                                 class="bi bi-whatsapp"></i></a>
                     </div>
                 </div>
@@ -765,7 +768,15 @@
                         <li class="d-flex mb-3"><i class="bi bi-geo-alt text-pink me-3"></i> 5-7 High Street London
                             United Kingdom. E
                             13 0AD</li>
-                        <li class="d-flex mb-3"><i class="bi bi-telephone text-pink me-3"></i>07500896792</li>
+                        <li class="d-flex mb-3 align-items-center">
+                            <i class="bi bi-telephone text-pink me-3"></i>
+                            <a href="tel:02034680480" class="text-black text-decoration-none">02034680480</a>
+                        </li>
+                        <li class="d-flex mb-3 align-items-center">
+                            <img src="{{ asset('ph.png') }}" alt="Phone" class="me-3 pink-icon"
+                                style="width:18px; height:18px; object-fit:contain;">
+                            <a href="tel:+442034113603" class="text-black text-decoration-none">+44 203 411 3603</a>
+                        </li>
                         <li class="d-flex mb-3"><i class="bi bi-envelope text-pink me-3"></i>
                             info@propertysourcinggroup.co.uk</li>
                     </ul>
@@ -780,7 +791,7 @@
     </footer>
 
     <!-- WhatsApp Floating Button -->
-    <a href="https://wa.me/+447500896792" class="whatsapp-float" target="_blank">
+    <a href="https://wa.me/+442034680480" class="whatsapp-float" target="_blank">
         <i class="bi bi-whatsapp"></i>
     </a>
 

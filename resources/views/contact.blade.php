@@ -44,7 +44,15 @@
                                 <div class="bg-pink-soft p-2 rounded-circle">
                                     <i class="bi bi-telephone-fill text-pink fs-4"></i>
                                 </div>
-                                <span class="fs-5 fw-bold">075 0089 6792</span>
+                                <span class="fs-5 fw-bold">0203 468 0480</span>
+                            </div>
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="bg-pink-soft p-2 rounded-circle d-flex align-items-center justify-content-center"
+                                    style="width: 48px; height: 48px;">
+                                    <img src="{{ asset('ph.png') }}" alt="Phone" class="pink-icon"
+                                        style="width: 24px; height: 24px; object-fit: contain;">
+                                </div>
+                                <span class="fs-5 fw-bold">+44 203 411 3603</span>
                             </div>
                             <div class="d-flex align-items-center gap-3">
                                 <div class="bg-pink-soft p-2 rounded-circle">

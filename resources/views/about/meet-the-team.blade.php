@@ -149,8 +149,8 @@
             <p class="text-secondary mb-5">Our team is available 24/7 to answer any of your questions about property
                 investment.</p>
             <div class="d-flex flex-column flex-md-row justify-content-center align-items-center gap-3">
-                <a href="tel:02033265420" class="btn btn-outline-blue btn-lg rounded-pill px-5 fw-bold">
-                    <i class="bi bi-telephone-fill me-2"></i> 0203 3265 420
+                <a href="tel:02034680480" class="btn btn-outline-blue btn-lg rounded-pill px-5 fw-bold">
+                    <i class="bi bi-telephone-fill me-2"></i> 0203 468 0480
                 </a>
                 <a href="{{ route('home') }}#contact"
                     class="btn btn-custom-pink btn-lg px-5 py-3 rounded-pill fw-bold text-uppercase">Send a Message</a>
