@@ -635,98 +635,98 @@
             }
 
             // --- Dynamic Financial Fields ---
-                    const financingSelect = document.getElementById('financing_type');
-                    const mortgageDetails = document.getElementById('mortgage_details');
+            const financingSelect = document.getElementById('financing_type');
+            const mortgageDetails = document.getElementById('mortgage_details');
 
-                    financingSelect.addEventListener('change', function() {
-                        mortgageDetails.style.display = this.value === 'mortgage' ? 'block' : 'none';
-                    });
-                    // Init
-                    if(financingSelect.value === 'mortgage') mortgageDetails.style.display = 'block';
+            financingSelect.addEventListener('change', function () {
+                mortgageDetails.style.display = this.value === 'mortgage' ? 'block' : 'none';
+            });
+            // Init
+            if (financingSelect.value === 'mortgage') mortgageDetails.style.display = 'block';
 
-                    // --- Dynamic Investment Fields ---
-                    const investmentSelect = document.getElementById('investment_type');
-                    const buyToSellDetails = document.getElementById('buy_to_sell_details');
-                    const rentalDetails = document.getElementById('rental_details');
+            // --- Dynamic Investment Fields ---
+            const investmentSelect = document.getElementById('investment_type');
+            const buyToSellDetails = document.getElementById('buy_to_sell_details');
+            const rentalDetails = document.getElementById('rental_details');
 
-                    investmentSelect.addEventListener('change', function() {
-                        buyToSellDetails.style.display = this.value === 'buy_to_sell' ? 'block' : 'none';
-                        rentalDetails.style.display = this.value === 'rental' ? 'block' : 'none';
-                    });
-                    // Init
-                    if(investmentSelect.value === 'buy_to_sell') buyToSellDetails.style.display = 'block';
-                    if(investmentSelect.value === 'rental') rentalDetails.style.display = 'block';
+            investmentSelect.addEventListener('change', function () {
+                buyToSellDetails.style.display = this.value === 'buy_to_sell' ? 'block' : 'none';
+                rentalDetails.style.display = this.value === 'rental' ? 'block' : 'none';
+            });
+            // Init
+            if (investmentSelect.value === 'buy_to_sell') buyToSellDetails.style.display = 'block';
+            if (investmentSelect.value === 'rental') rentalDetails.style.display = 'block';
 
-                    // --- Dynamic Tenure Fields ---
-                    const tenureSelect = document.getElementById('tenure_type');
-                    const leaseholdDetails = document.getElementById('leasehold_details');
+            // --- Dynamic Tenure Fields ---
+            const tenureSelect = document.getElementById('tenure_type');
+            const leaseholdDetails = document.getElementById('leasehold_details');
 
-                    tenureSelect.addEventListener('change', function() {
-                        leaseholdDetails.style.display = this.value === 'leasehold' ? 'block' : 'none';
-                    });
-                    // Init
-                    if(tenureSelect.value === 'leasehold') leaseholdDetails.style.display = 'block';
+            tenureSelect.addEventListener('change', function () {
+                leaseholdDetails.style.display = this.value === 'leasehold' ? 'block' : 'none';
+            });
+            // Init
+            if (tenureSelect.value === 'leasehold') leaseholdDetails.style.display = 'block';
 
-                    // --- Dynamic Costs Rows ---
-                    let costIndex = 1000; // Start high to avoid collision or just increment
-                    function addCostRow() {
-                        const container = document.getElementById('costs_container');
-                        const html = `
-                            <div class="row g-2 mb-2 align-items-center cost-row">
-                                <div class="col-7">
-                                    <input type="text" name="costs[${costIndex}][name]" class="form-control form-control-sm" placeholder="Cost Name (e.g. Stamp Duty)">
-                                </div>
-                                <div class="col-4">
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-text">£</span>
-                                        <input type="number" step="0.01" name="costs[${costIndex}][amount]" class="form-control" placeholder="0.00">
+            // --- Dynamic Costs Rows ---
+            let costIndex = 1000; // Start high to avoid collision or just increment
+            function addCostRow() {
+                const container = document.getElementById('costs_container');
+                const html = `
+                                    <div class="row g-2 mb-2 align-items-center cost-row">
+                                        <div class="col-7">
+                                            <input type="text" name="costs[${costIndex}][name]" class="form-control form-control-sm" placeholder="Cost Name (e.g. Stamp Duty)">
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="input-group input-group-sm">
+                                                <span class="input-group-text">£</span>
+                                                <input type="number" step="0.01" name="costs[${costIndex}][amount]" class="form-control" placeholder="0.00">
+                                            </div>
+                                        </div>
+                                        <div class="col-1 text-end">
+                                            <button type="button" class="btn btn-sm text-danger" onclick="this.closest('.cost-row').remove()"><i class="fas fa-trash"></i></button>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-1 text-end">
-                                    <button type="button" class="btn btn-sm text-danger" onclick="this.closest('.cost-row').remove()"><i class="fas fa-trash"></i></button>
-                                </div>
-                            </div>
-                        `;
-                        container.insertAdjacentHTML('beforeend', html);
-                        costIndex++;
-                    }
+                                `;
+                container.insertAdjacentHTML('beforeend', html);
+                costIndex++;
+            }
 
-                    // --- Dynamic Tenants Rows ---
-                    let tenantIndex = 1000;
-                    function addTenantRow() {
-                        const container = document.getElementById('tenants_container');
-                        const html = `
-                            <div class="row g-2 mb-3 p-2 border rounded bg-white tenant-row position-relative">
-                                <button type="button" class="btn btn-sm btn-link text-danger position-absolute top-0 end-0 text-decoration-none" onclick="this.closest('.tenant-row').remove()" style="z-index:10;">&times;</button>
-                                <div class="col-md-6">
-                                    <label class="form-label small mb-1">Full Name</label>
-                                    <input type="text" name="tenants[${tenantIndex}][name]" class="form-control form-control-sm" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label small mb-1">Phone</label>
-                                    <input type="text" name="tenants[${tenantIndex}][phone]" class="form-control form-control-sm">
-                                </div>
-                                <div class="col-md-8">
-                                    <label class="form-label small mb-1">Email</label>
-                                    <input type="email" name="tenants[${tenantIndex}][email]" class="form-control form-control-sm">
-                                </div>
-                                <div class="col-md-4 d-flex align-items-end">
-                                    <div class="form-check mb-1">
-                                        <input class="form-check-input" type="checkbox" name="tenants[${tenantIndex}][is_primary]" id="primary_${tenantIndex}">
-                                        <label class="form-check-label small" for="primary_${tenantIndex}">Primary Contact</label>
+            // --- Dynamic Tenants Rows ---
+            let tenantIndex = 1000;
+            function addTenantRow() {
+                const container = document.getElementById('tenants_container');
+                const html = `
+                                    <div class="row g-2 mb-3 p-2 border rounded bg-white tenant-row position-relative">
+                                        <button type="button" class="btn btn-sm btn-link text-danger position-absolute top-0 end-0 text-decoration-none" onclick="this.closest('.tenant-row').remove()" style="z-index:10;">&times;</button>
+                                        <div class="col-md-6">
+                                            <label class="form-label small mb-1">Full Name</label>
+                                            <input type="text" name="tenants[${tenantIndex}][name]" class="form-control form-control-sm" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label small mb-1">Phone</label>
+                                            <input type="text" name="tenants[${tenantIndex}][phone]" class="form-control form-control-sm">
+                                        </div>
+                                        <div class="col-md-8">
+                                            <label class="form-label small mb-1">Email</label>
+                                            <input type="email" name="tenants[${tenantIndex}][email]" class="form-control form-control-sm">
+                                        </div>
+                                        <div class="col-md-4 d-flex align-items-end">
+                                            <div class="form-check mb-1">
+                                                <input class="form-check-input" type="checkbox" name="tenants[${tenantIndex}][is_primary]" id="primary_${tenantIndex}">
+                                                <label class="form-check-label small" for="primary_${tenantIndex}">Primary Contact</label>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                        `;
-                        container.insertAdjacentHTML('beforeend', html);
-                        tenantIndex++;
-                    }
+                                `;
+                container.insertAdjacentHTML('beforeend', html);
+                tenantIndex++;
+            }
 
-                    // Initialize if Google script is loaded
-                    if (typeof google === 'object' && typeof google.maps === 'object') {
-                        initAutocomplete();
-                    }
-                </script>
+            // Initialize if Google script is loaded
+            if (typeof google === 'object' && typeof google.maps === 'object') {
+                initAutocomplete();
+            }
+        </script>
     @endpush
 
 @endsection

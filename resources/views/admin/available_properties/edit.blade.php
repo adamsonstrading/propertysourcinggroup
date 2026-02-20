@@ -618,7 +618,8 @@
                                                     <option value="sold out" {{ old('status', $property->status) == 'sold out' ? 'selected' : '' }}>Sold Out</option>
                                                     @if(!in_array($property->status, ['pending', 'sold out']))
                                                         <option value="{{ $property->status }}" selected disabled>
-                                                            {{ ucfirst($property->status) }}</option>
+                                                            {{ ucfirst($property->status) }}
+                                                        </option>
                                                     @endif
                                                 @endif
                                             </select>
@@ -653,181 +654,180 @@
                     <!-- CKEditor 5 -->
                     <script src="https://cdn.ckeditor.com/ckeditor5/40.0.0/classic/ckeditor.js"></script>
                     <!-- Google Maps Places API -->
-                    <script
-                        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDtagAWzRL7h2Safzk7EwKK0x6v42RlsdI&libraries=places"></script>
-                    <script>
-                        // Initialize CKEditor
-                        ClassicEditor
-                            .create(document.querySelector('#editor'), {
-                                toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', 'undo', 'redo'],
-                            })
-                            .catch(error => {
-                                console.error(error);
-                            });
+                    <scriptsrc="https://maps.googleapis.com/maps/api/js?key=AIzaSyDtagAWzRL7h2Safzk7EwKK0x6v42RlsdI&libraries=places"></script>
+                            <script>
+                                // Initialize CKEditor
+                                ClassicEditor
+                                    .create(document.querySelector('#editor'), {
+                                        toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', 'undo', 'redo'],
+                                    })
+                                    .catch(error => {
+                                        console.error(error);
+                                    });
 
-                        function initAutocomplete() {
-                            const input = document.getElementById("location-input");
-                            const options = {
-                                componentRestrictions: { country: "gb" },
-                                fields: ["address_components", "geometry", "icon", "name"],
-                                strictBounds: false,
-                            };
+                                function initAutocomplete() {
+                                    const input = document.getElementById("location-input");
+                                    const options = {
+                                        componentRestrictions: { country: "gb" },
+                                        fields: ["address_components", "geometry", "icon", "name"],
+                                        strictBounds: false,
+                                    };
 
-                            const autocomplete = new google.maps.places.Autocomplete(input, options);
+                                    const autocomplete = new google.maps.places.Autocomplete(input, options);
 
-                            autocomplete.addListener("place_changed", () => {
-                                const place = autocomplete.getPlace();
+                                    autocomplete.addListener("place_changed", () => {
+                                        const place = autocomplete.getPlace();
 
-                                if (!place.geometry || !place.geometry.location) {
-                                    window.alert("No details available for input: '" + place.name + "'");
-                                    return;
+                                        if (!place.geometry || !place.geometry.location) {
+                                            window.alert("No details available for input: '" + place.name + "'");
+                                            return;
+                                        }
+
+                                        document.getElementById("latitude").value = place.geometry.location.lat();
+                                        document.getElementById("longitude").value = place.geometry.location.lng();
+                                    });
                                 }
 
-                                document.getElementById("latitude").value = place.geometry.location.lat();
-                                document.getElementById("longitude").value = place.geometry.location.lng();
-                            });
-                        }
+                                // Dynamic Unit Type Filtering & Bed/Bath Visibility
+                                const propertyTypeSelect = document.getElementById('property_type_id');
+                                const unitTypeSelect = document.getElementById('unit_type_id');
+                                const bedBathSection = document.getElementById('bed-bath-section');
+                                const unitTypeOptions = Array.from(unitTypeSelect.options);
 
-                        // Dynamic Unit Type Filtering & Bed/Bath Visibility
-                        const propertyTypeSelect = document.getElementById('property_type_id');
-                        const unitTypeSelect = document.getElementById('unit_type_id');
-                        const bedBathSection = document.getElementById('bed-bath-section');
-                        const unitTypeOptions = Array.from(unitTypeSelect.options);
+                                function filterUnitTypes(isInitial = false) {
+                                    const selectedTypeId = propertyTypeSelect.value;
+                                    const selectedTypeName = propertyTypeSelect.options[propertyTypeSelect.selectedIndex]?.dataset.name || '';
+                                    const currentUnitTypeId = unitTypeSelect.value;
 
-                        function filterUnitTypes(isInitial = false) {
-                            const selectedTypeId = propertyTypeSelect.value;
-                            const selectedTypeName = propertyTypeSelect.options[propertyTypeSelect.selectedIndex]?.dataset.name || '';
-                            const currentUnitTypeId = unitTypeSelect.value;
-
-                            // Show/Hide Bed Bath section for Commercial
-                            if (selectedTypeName.includes('commercial')) {
-                                bedBathSection.style.display = 'none';
-                            } else {
-                                bedBathSection.style.display = 'flex';
-                            }
-
-                            // Filter Unit Types
-                            unitTypeSelect.innerHTML = '<option value="">Choose Category (Optional)</option>';
-
-                            if (selectedTypeId) {
-                                const filteredOptions = unitTypeOptions.filter(opt =>
-                                    opt.dataset.propertyType === selectedTypeId || opt.value === ""
-                                );
-
-                                filteredOptions.forEach(opt => {
-                                    if (opt.value !== "") {
-                                        const newOpt = opt.cloneNode(true);
-                                        if (isInitial && newOpt.value === currentUnitTypeId) {
-                                            newOpt.selected = true;
-                                        }
-                                        unitTypeSelect.appendChild(newOpt);
+                                    // Show/Hide Bed Bath section for Commercial
+                                    if (selectedTypeName.includes('commercial')) {
+                                        bedBathSection.style.display = 'none';
+                                    } else {
+                                        bedBathSection.style.display = 'flex';
                                     }
-                                });
-                            }
-                        }
 
-                        propertyTypeSelect.addEventListener('change', () => filterUnitTypes(false));
+                                    // Filter Unit Types
+                                    unitTypeSelect.innerHTML = '<option value="">Choose Category (Optional)</option>';
 
-                        // Initial call
-                        if (propertyTypeSelect.value) {
-                            filterUnitTypes(true);
-                        }
+                                    if (selectedTypeId) {
+                                        const filteredOptions = unitTypeOptions.filter(opt =>
+                                            opt.dataset.propertyType === selectedTypeId || opt.value === ""
+                                        );
 
-                        // --- Dynamic Financial Fields ---
-                        const financingSelect = document.getElementById('financing_type');
-                        const mortgageDetails = document.getElementById('mortgage_details');
+                                        filteredOptions.forEach(opt => {
+                                            if (opt.value !== "") {
+                                                const newOpt = opt.cloneNode(true);
+                                                if (isInitial && newOpt.value === currentUnitTypeId) {
+                                                    newOpt.selected = true;
+                                                }
+                                                unitTypeSelect.appendChild(newOpt);
+                                            }
+                                        });
+                                    }
+                                }
 
-                        if (financingSelect) {
-                            financingSelect.addEventListener('change', function() {
-                                mortgageDetails.style.display = this.value === 'mortgage' ? 'block' : 'none';
-                            });
-                            if(financingSelect.value === 'mortgage') mortgageDetails.style.display = 'block';
-                        }
+                                propertyTypeSelect.addEventListener('change', () => filterUnitTypes(false));
 
-                        // --- Dynamic Investment Fields ---
-                        const investmentSelect = document.getElementById('investment_type');
-                        const buyToSellDetails = document.getElementById('buy_to_sell_details');
-                        const rentalDetails = document.getElementById('rental_details');
+                                // Initial call
+                                if (propertyTypeSelect.value) {
+                                    filterUnitTypes(true);
+                                }
 
-                        if (investmentSelect) {
-                            investmentSelect.addEventListener('change', function() {
-                                buyToSellDetails.style.display = this.value === 'buy_to_sell' ? 'block' : 'none';
-                                rentalDetails.style.display = this.value === 'rental' ? 'block' : 'none';
-                            });
-                            if(investmentSelect.value === 'buy_to_sell') buyToSellDetails.style.display = 'block';
-                            if(investmentSelect.value === 'rental') rentalDetails.style.display = 'block';
-                        }
+                                // --- Dynamic Financial Fields ---
+                                const financingSelect = document.getElementById('financing_type');
+                                const mortgageDetails = document.getElementById('mortgage_details');
 
-                        // --- Dynamic Tenure Fields ---
-                        const tenureSelect = document.getElementById('tenure_type');
-                        const leaseholdDetails = document.getElementById('leasehold_details');
+                                if (financingSelect) {
+                                    financingSelect.addEventListener('change', function() {
+                                        mortgageDetails.style.display = this.value === 'mortgage' ? 'block' : 'none';
+                                    });
+                                    if(financingSelect.value === 'mortgage') mortgageDetails.style.display = 'block';
+                                }
 
-                        if (tenureSelect) {
-                            tenureSelect.addEventListener('change', function() {
-                                leaseholdDetails.style.display = this.value === 'leasehold' ? 'block' : 'none';
-                            });
-                            if(tenureSelect.value === 'leasehold') leaseholdDetails.style.display = 'block';
-                        }
+                                // --- Dynamic Investment Fields ---
+                                const investmentSelect = document.getElementById('investment_type');
+                                const buyToSellDetails = document.getElementById('buy_to_sell_details');
+                                const rentalDetails = document.getElementById('rental_details');
 
-                        // --- Dynamic Costs Rows ---
-                        let costIndex = 1000;
-                        window.addCostRow = function() {
-                            const container = document.getElementById('costs_container');
-                            const html = `
-                                <div class="row g-2 mb-2 align-items-center cost-row">
-                                    <div class="col-7">
-                                        <input type="text" name="costs[${costIndex}][name]" class="form-control form-control-sm" placeholder="Cost Name (e.g. Stamp Duty)">
-                                    </div>
-                                    <div class="col-4">
-                                        <div class="input-group input-group-sm">
-                                            <span class="input-group-text">£</span>
-                                            <input type="number" step="0.01" name="costs[${costIndex}][amount]" class="form-control" placeholder="0.00">
+                                if (investmentSelect) {
+                                    investmentSelect.addEventListener('change', function() {
+                                        buyToSellDetails.style.display = this.value === 'buy_to_sell' ? 'block' : 'none';
+                                        rentalDetails.style.display = this.value === 'rental' ? 'block' : 'none';
+                                    });
+                                    if(investmentSelect.value === 'buy_to_sell') buyToSellDetails.style.display = 'block';
+                                    if(investmentSelect.value === 'rental') rentalDetails.style.display = 'block';
+                                }
+
+                                // --- Dynamic Tenure Fields ---
+                                const tenureSelect = document.getElementById('tenure_type');
+                                const leaseholdDetails = document.getElementById('leasehold_details');
+
+                                if (tenureSelect) {
+                                    tenureSelect.addEventListener('change', function() {
+                                        leaseholdDetails.style.display = this.value === 'leasehold' ? 'block' : 'none';
+                                    });
+                                    if(tenureSelect.value === 'leasehold') leaseholdDetails.style.display = 'block';
+                                }
+
+                                // --- Dynamic Costs Rows ---
+                                let costIndex = 1000;
+                                window.addCostRow = function() {
+                                    const container = document.getElementById('costs_container');
+                                    const html = `
+                                        <div class="row g-2 mb-2 align-items-center cost-row">
+                                            <div class="col-7">
+                                                <input type="text" name="costs[${costIndex}][name]" class="form-control form-control-sm" placeholder="Cost Name (e.g. Stamp Duty)">
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="input-group input-group-sm">
+                                                    <span class="input-group-text">£</span>
+                                                    <input type="number" step="0.01" name="costs[${costIndex}][amount]" class="form-control" placeholder="0.00">
+                                                </div>
+                                            </div>
+                                            <div class="col-1 text-end">
+                                                <button type="button" class="btn btn-sm text-danger" onclick="this.closest('.cost-row').remove()"><i class="fas fa-trash"></i></button>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-1 text-end">
-                                        <button type="button" class="btn btn-sm text-danger" onclick="this.closest('.cost-row').remove()"><i class="fas fa-trash"></i></button>
-                                    </div>
-                                </div>
-                            `;
-                            container.insertAdjacentHTML('beforeend', html);
-                            costIndex++;
-                        }
+                                    `;
+                                    container.insertAdjacentHTML('beforeend', html);
+                                    costIndex++;
+                                }
 
-                        // --- Dynamic Tenants Rows ---
-                        let tenantIndex = 1000;
-                        window.addTenantRow = function() {
-                            const container = document.getElementById('tenants_container');
-                            const html = `
-                                <div class="row g-2 mb-3 p-2 border rounded bg-white tenant-row position-relative">
-                                    <button type="button" class="btn btn-sm btn-link text-danger position-absolute top-0 end-0 text-decoration-none" onclick="this.closest('.tenant-row').remove()" style="z-index:10;">&times;</button>
-                                    <div class="col-md-6">
-                                        <label class="form-label small mb-1">Full Name</label>
-                                        <input type="text" name="tenants[${tenantIndex}][name]" class="form-control form-control-sm" required>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label small mb-1">Phone</label>
-                                        <input type="text" name="tenants[${tenantIndex}][phone]" class="form-control form-control-sm">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <label class="form-label small mb-1">Email</label>
-                                        <input type="email" name="tenants[${tenantIndex}][email]" class="form-control form-control-sm">
-                                    </div>
-                                    <div class="col-md-4 d-flex align-items-end">
-                                        <div class="form-check mb-1">
-                                            <input class="form-check-input" type="checkbox" name="tenants[${tenantIndex}][is_primary]" id="primary_${tenantIndex}">
-                                            <label class="form-check-label small" for="primary_${tenantIndex}">Primary Contact</label>
+                                // --- Dynamic Tenants Rows ---
+                                let tenantIndex = 1000;
+                                window.addTenantRow = function() {
+                                    const container = document.getElementById('tenants_container');
+                                    const html = `
+                                        <div class="row g-2 mb-3 p-2 border rounded bg-white tenant-row position-relative">
+                                            <button type="button" class="btn btn-sm btn-link text-danger position-absolute top-0 end-0 text-decoration-none" onclick="this.closest('.tenant-row').remove()" style="z-index:10;">&times;</button>
+                                            <div class="col-md-6">
+                                                <label class="form-label small mb-1">Full Name</label>
+                                                <input type="text" name="tenants[${tenantIndex}][name]" class="form-control form-control-sm" required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label small mb-1">Phone</label>
+                                                <input type="text" name="tenants[${tenantIndex}][phone]" class="form-control form-control-sm">
+                                            </div>
+                                            <div class="col-md-8">
+                                                <label class="form-label small mb-1">Email</label>
+                                                <input type="email" name="tenants[${tenantIndex}][email]" class="form-control form-control-sm">
+                                            </div>
+                                            <div class="col-md-4 d-flex align-items-end">
+                                                <div class="form-check mb-1">
+                                                    <input class="form-check-input" type="checkbox" name="tenants[${tenantIndex}][is_primary]" id="primary_${tenantIndex}">
+                                                    <label class="form-check-label small" for="primary_${tenantIndex}">Primary Contact</label>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                            `;
-                            container.insertAdjacentHTML('beforeend', html);
-                            tenantIndex++;
-                        }
+                                    `;
+                                    container.insertAdjacentHTML('beforeend', html);
+                                    tenantIndex++;
+                                }
 
-                        if (typeof google === 'object' && typeof google.maps === 'object') {
-                            initAutocomplete();
-                        }
-                    </script>
+                                if (typeof google === 'object' && typeof google.maps === 'object') {
+                                    initAutocomplete();
+                                }
+                            </script>
                 @endpush
 
 @endsection

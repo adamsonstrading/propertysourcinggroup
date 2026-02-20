@@ -261,48 +261,47 @@
     </style>
 
     @push('scripts')
-        <script
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDtagAWzRL7h2Safzk7EwKK0x6v42RlsdI&libraries=places"></script>
-        <script>
-            function initAutocomplete() {
-                const input = document.getElementById('location-search');
-                const options = {
-                    componentRestrictions: {
-                        country: "gb"
-                    },
-                    fields: ["address_components", "geometry", "icon", "name"],
-                    strictBounds: false,
-                };
+        <scriptsrc="https://maps.googleapis.com/maps/api/js?key=AIzaSyDtagAWzRL7h2Safzk7EwKK0x6v42RlsdI&libraries=places"></script>
+                <script>
+                    function initAutocomplete() {
+                        const input = document.getElementById('location-search');
+                        const options = {
+                            componentRestrictions: {
+                                country: "gb"
+                            },
+                            fields: ["address_components", "geometry", "icon", "name"],
+                            strictBounds: false,
+                        };
 
-                const autocomplete = new google.maps.places.Autocomplete(input, options);
+                        const autocomplete = new google.maps.places.Autocomplete(input, options);
 
-                autocomplete.addListener("place_changed", () => {
-                    const place = autocomplete.getPlace();
+                        autocomplete.addListener("place_changed", () => {
+                            const place = autocomplete.getPlace();
 
-                    if (!place.geometry || !place.geometry.location) {
-                        return;
+                            if (!place.geometry || !place.geometry.location) {
+                                return;
+                            }
+
+                            document.getElementById('lat').value = place.geometry.location.lat();
+                            document.getElementById('lng').value = place.geometry.location.lng();
+
+                            // Automatically submit if location is selected
+                            // document.getElementById('filter-form').submit();
+                        });
+
+                        // If user clears the input, clear lat/lng
+                        input.addEventListener('input', function () {
+                            if (this.value === '') {
+                                document.getElementById('lat').value = '';
+                                document.getElementById('lng').value = '';
+                            }
+                        });
                     }
 
-                    document.getElementById('lat').value = place.geometry.location.lat();
-                    document.getElementById('lng').value = place.geometry.location.lng();
-
-                    // Automatically submit if location is selected
-                    // document.getElementById('filter-form').submit();
-                });
-
-                // If user clears the input, clear lat/lng
-                input.addEventListener('input', function () {
-                    if (this.value === '') {
-                        document.getElementById('lat').value = '';
-                        document.getElementById('lng').value = '';
+                    if (typeof google === 'object' && typeof google.maps === 'object') {
+                        initAutocomplete();
                     }
-                });
-            }
-
-            if (typeof google === 'object' && typeof google.maps === 'object') {
-                initAutocomplete();
-            }
-        </script>
+                </script>
     @endpush
 
 @endsection
