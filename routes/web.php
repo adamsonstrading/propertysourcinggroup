@@ -71,6 +71,7 @@ Route::middleware('auth')->group(function () {
 
     // User Dashboard
     Route::get('/dashboard', [App\Http\Controllers\UserDashboardController::class, 'index'])->name('user.dashboard');
+    Route::get('/dashboard/credits', [App\Http\Controllers\UserDashboardController::class, 'credits'])->name('user.credits.index');
 
     // User lists
     Route::get('/my-offers', [App\Http\Controllers\PropertyOfferController::class, 'index'])->name('user.offers.index');

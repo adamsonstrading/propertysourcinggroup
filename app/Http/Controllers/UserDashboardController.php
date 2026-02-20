@@ -21,4 +21,15 @@ class UserDashboardController extends Controller
 
         return view('user.dashboard', compact('user', 'offersCount', 'favoritesCount', 'unreadMessagesCount'));
     }
+
+    /**
+     * Show the investment credits page.
+     */
+    public function credits()
+    {
+        $user = Auth::user();
+        $completedCount = \App\Models\UserCompletedProperty::where('user_id', $user->id)->count();
+
+        return view('user.credits.index', compact('user', 'completedCount'));
+    }
 }

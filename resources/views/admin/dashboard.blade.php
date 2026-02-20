@@ -61,6 +61,19 @@
                 <p>Status</p>
             </div>
         </div>
+
+        @if(auth()->user()->role !== 'admin')
+            <div class="col-xl-3 col-md-6">
+                <div class="stats-card warning position-relative">
+                    <div class="icon">
+                        <i class="bi bi-trophy-fill"></i>
+                    </div>
+                    <h3>{{ auth()->user()->investment_credits ?? 0 }}</h3>
+                    <p>Investment Credits</p>
+                    <a href="{{ route('user.credits.index') }}" class="stretched-link"></a>
+                </div>
+            </div>
+        @endif
     </div>
 
     <!-- Success Message -->

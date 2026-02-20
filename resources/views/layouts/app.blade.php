@@ -85,6 +85,24 @@
             box-shadow: 0 4px 6px rgba(249, 92, 168, 0.3);
         }
 
+        .btn-primary {
+            background-color: #08c3e1;
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #08c3e1;
+            color: white;
+            border: none;
+        }
+
+        .btn-outline-primary:hover {
+            background-color: #08c3e1;
+            color: white;
+            border: none;
+        }
+
         .btn-custom-pink:hover {
             background-color: #d14088;
             color: white;

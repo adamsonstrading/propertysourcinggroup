@@ -18,7 +18,8 @@
 
         <!-- Quick Stats -->
         <div class="row g-4 mb-5">
-            <div class="col-md-4">
+            <!-- My Offers -->
+            <div class="col-md-6 col-lg-3">
                 <div class="card border-0 shadow-sm rounded-4 h-100 bg-blue text-white overflow-hidden position-relative">
                     <div class="card-body p-4 position-relative z-1">
                         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -31,7 +32,9 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
+
+            <!-- Favorite Properties -->
+            <div class="col-md-6 col-lg-3">
                 <div class="card border-0 shadow-sm rounded-4 h-100 bg-white overflow-hidden position-relative">
                     <div class="card-body p-4">
                         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -43,7 +46,9 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
+
+            <!-- Unread Messages -->
+            <div class="col-md-6 col-lg-3">
                 <div class="card border-0 shadow-sm rounded-4 h-100 bg-white overflow-hidden position-relative">
                     <div class="card-body p-4">
                         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -55,6 +60,20 @@
                         <h2 class="display-4 fw-bold mb-1 text-blue">{{ $unreadMessagesCount }}</h2>
                         <p class="text-muted mb-0">Unread Messages</p>
                         <a href="{{ route('admin.messages.index') }}" class="stretched-link"></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Investment Credits -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card border-0 shadow-sm rounded-4 h-100 bg-white overflow-hidden position-relative">
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <i class="bi bi-trophy-fill fs-3 text-warning"></i>
+                        </div>
+                        <h2 class="display-4 fw-bold mb-1 text-blue">{{ $user->investment_credits ?? 0 }}</h2>
+                        <p class="text-muted mb-0">Investment Credits</p>
+                        <a href="{{ route('user.credits.index') }}" class="stretched-link"></a>
                     </div>
                 </div>
             </div>

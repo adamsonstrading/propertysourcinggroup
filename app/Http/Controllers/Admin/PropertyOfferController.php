@@ -63,8 +63,12 @@ class PropertyOfferController extends Controller
                 'approved_at' => now(),
             ]);
 
-            // 4. Award Investment Credits (e.g. 1 credit per property or logic based on value)
-            $offer->user->increment('investment_credits', 1);
+            // 4. Award Investment Credits (Batch Logic: 5 completions = 3,000 credits)
+            $completedCount = UserCompletedProperty::where('user_id', $offer->user_id)->count();
+
+            if ($completedCount > 0 && $completedCount % 5 === 0) {
+                $offer->user->increment('investment_credits', 3000);
+            }
 
             // 5. Update offer status to completed (if enum allows, or keep as accepted)
             // For now, let's keep it as accepted, but we logged the completion.
