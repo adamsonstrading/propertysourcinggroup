@@ -760,6 +760,8 @@
                             <li style="margin-top:10px"><a
                                     href="{{ route('service.show', $service->slug) }}">{{ $service->title }}</a></li>
                         @endforeach
+                        <li style="margin-top:10px"><a href="https://propertysalesdirect.co.uk/">Looking To Sell
+                                Property Cash</a></li>
                     </ul>
                 </div>
                 <div class="col-lg-4 col-md-6">
