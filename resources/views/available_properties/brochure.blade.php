@@ -186,19 +186,7 @@
 </head>
 
 <body>
-    <div class="header">
-        <div class="header-top">
-            <img src="{{ public_path('logo.png') }}" style="max-height: 70px; width: auto; margin-bottom: 5px;">
-        </div>
-        <div style="font-size: 14px; color: #1E4072; font-weight: bold;">
-            02034680480 | info@propertysourcinggroup.co.uk
-        </div>
 
-    </div>
-
-    <div class="pink-bar">
-        UK's Leading Property Deal Sourcing Group
-    </div>
 
     <div class="container">
         <div style="margin-bottom: 10px;">
@@ -495,10 +483,6 @@
         </div>
     </div>
 
-    <div class="footer">
-        © {{ date('Y') }} Property Sourcing Group. All Rights Reserved.<br>
-        5-7 High Street London United Kingdom. E 13 0AD
-    </div>
 </body>
 
 </html>
