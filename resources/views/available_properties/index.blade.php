@@ -14,12 +14,13 @@
             </div>
 
             <!-- Filter Section Integrated -->
-            <div class="filter-container mx-auto" style="max-width: 1100px;">
+            <div class="filter-container mx-auto" style="max-width: 1200px;">
                 <!-- Mobile Toggle Button -->
                 <div class="d-lg-none mb-3">
                     <button
-                        class="btn btn-primary w-100 d-flex justify-content-between align-items-center py-3 px-4 rounded-4 fw-bold shadow-lg"
-                        type="button" data-bs-toggle="collapse" data-bs-target="#propertyFilters">
+                        class="btn btn-primary w-100 d-flex justify-content-between align-items-center py-3 px-4 rounded-4 fw-bold shadow-lg border-0"
+                        style="background: linear-gradient(135deg, #1E4072 0%, #2a5298 100%);" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#propertyFilters">
                         <span><i class="bi bi-sliders2 me-2"></i>Filter Your Search</span>
                         <i class="bi bi-chevron-down"></i>
                     </button>
@@ -27,94 +28,100 @@
 
                 <!-- Filter Content -->
                 <div class="collapse d-lg-block" id="propertyFilters">
-                    <div class="filter-wrapper p-4 p-lg-5 rounded-5 bg-white border-0 shadow-2xl">
+                    <div class="filter-wrapper p-4 p-lg-5 rounded-5 bg-white shadow-2xl border border-light-subtle">
                         <form action="{{ route('available-properties.index') }}" method="GET" id="filter-form">
-                            <!-- Line 1: Primary Discovery -->
-                            <div class="row g-3 mb-4 last-mb-0 border-bottom-lg">
-                                <div class="col-lg-7">
-                                    <label class="filter-label">Where would you like to invest?</label>
-                                    <div class="input-group premium-input-group shadow-sm">
-                                        <span class="input-group-text bg-white border-end-0"><i
-                                                class="bi bi-geo-alt-fill text-pink"></i></span>
-                                        <input type="text" id="location-search" class="form-control border-start-0 py-3"
-                                            placeholder="City, Area or Postcode..." value="{{ request('location') }}"
-                                            name="location">
-                                        <select name="radius" class="form-select radius-select border-start">
-                                            <option value="">No Radius</option>
-                                            <option value="5" {{ request('radius') == 5 ? 'selected' : '' }}>5 miles</option>
-                                            <option value="10" {{ request('radius') == 10 ? 'selected' : '' }}>10 miles
-                                            </option>
-                                            <option value="20" {{ request('radius') == 20 ? 'selected' : '' }}>20 miles
-                                            </option>
-                                            <option value="50" {{ request('radius') == 50 ? 'selected' : '' }}>50 miles
-                                            </option>
+                            <div class="row g-3 align-items-end">
+                                <!-- Location Search -->
+                                <div class="col-lg-4">
+                                    <div class="filter-group">
+                                        <label class="filter-label"><i class="bi bi-geo-alt-fill text-pink me-1"></i>
+                                            Location</label>
+                                        <div class="premium-field-group">
+                                            <input type="text" id="location-search" class="premium-input w-100"
+                                                placeholder="City, Area or Postcode..." value="{{ request('location') }}"
+                                                name="location">
+                                            <select name="radius" class="radius-select-floating">
+                                                <option value="">No Radius</option>
+                                                <option value="5" {{ request('radius') == 5 ? 'selected' : '' }}>5m</option>
+                                                <option value="10" {{ request('radius') == 10 ? 'selected' : '' }}>10m
+                                                </option>
+                                                <option value="20" {{ request('radius') == 20 ? 'selected' : '' }}>20m
+                                                </option>
+                                                <option value="50" {{ request('radius') == 50 ? 'selected' : '' }}>50m
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <input type="hidden" name="lat" id="lat" value="{{ request('lat') }}">
+                                        <input type="hidden" name="lng" id="lng" value="{{ request('lng') }}">
+                                    </div>
+                                </div>
+
+                                <!-- Property Type -->
+                                <div class="col-lg-2">
+                                    <div class="filter-group">
+                                        <label class="filter-label"><i class="bi bi-house-door-fill text-blue me-1"></i>
+                                            Type</label>
+                                        <select name="property_type" class="premium-select-v2 w-100">
+                                            <option value="">All Types</option>
+                                            @foreach($propertyTypes as $type)
+                                                <option value="{{ $type->id }}" {{ request('property_type') == $type->id ? 'selected' : '' }}>{{ $type->name }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
-                                    <input type="hidden" name="lat" id="lat" value="{{ request('lat') }}">
-                                    <input type="hidden" name="lng" id="lng" value="{{ request('lng') }}">
                                 </div>
-                                <div class="col-lg-5">
-                                    <label class="filter-label">Budget Range (£)</label>
-                                    <div class="input-group premium-input-group shadow-sm">
-                                        <span class="input-group-text bg-white px-3">Min</span>
-                                        <input type="number" name="min_price" class="form-control border-end-0 py-3"
-                                            placeholder="£0" value="{{ request('min_price') }}">
-                                        <span
-                                            class="input-group-text bg-white px-2 border-start-0 border-end-0 text-muted">to</span>
-                                        <input type="number" name="max_price" class="form-control border-start-0 py-3"
-                                            placeholder="Max" value="{{ request('max_price') }}">
-                                        <span class="input-group-text bg-white px-3">Max</span>
+
+                                <!-- Bedrooms -->
+                                <div class="col-lg-2">
+                                    <div class="filter-group">
+                                        <label class="filter-label"><i class="bi bi-door-open-fill text-blue me-1"></i>
+                                            Beds</label>
+                                        <select name="bedrooms" class="premium-select-v2 w-100">
+                                            <option value="">Any</option>
+                                            @for($i = 1; $i <= 6; $i++)
+                                                <option value="{{ $i }}" {{ request('bedrooms') == $i ? 'selected' : '' }}>
+                                                    {{ $i }}+
+                                                </option>
+                                            @endfor
+                                        </select>
                                     </div>
                                 </div>
-                            </div>
 
-                            <!-- Line 2: Specific Requirements -->
-                            <div class="row g-3 align-items-end">
-                                <div class="col-lg-4 col-md-6">
-                                    <label class="filter-label"><i class="bi bi-house-door-fill me-1 text-blue"></i>
-                                        Property Type</label>
-                                    <select name="property_type" class="form-select premium-select py-3">
-                                        <option value="">All Property Types</option>
-                                        @foreach($propertyTypes as $type)
-                                            <option value="{{ $type->id }}" {{ request('property_type') == $type->id ? 'selected' : '' }}>{{ $type->name }}</option>
-                                        @endforeach
-                                    </select>
+                                <!-- Price Range -->
+                                <div class="col-lg-3">
+                                    <div class="filter-group">
+                                        <label class="filter-label"><i class="bi bi-currency-pound text-pink me-1"></i>
+                                            Price Range</label>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <input type="number" name="min_price" class="premium-input-small flex-grow-1"
+                                                placeholder="Min" value="{{ request('min_price') }}">
+                                            <span class="text-muted small">-</span>
+                                            <input type="number" name="max_price" class="premium-input-small flex-grow-1"
+                                                placeholder="Max" value="{{ request('max_price') }}">
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="col-lg-3 col-md-6">
-                                    <label class="filter-label"><i class="bi bi-door-open-fill me-1 text-blue"></i>
-                                        Bedrooms</label>
-                                    <select name="bedrooms" class="form-select premium-select py-3">
-                                        <option value="">Any Beds</option>
-                                        @for($i = 1; $i <= 6; $i++)
-                                            <option value="{{ $i }}" {{ request('bedrooms') == $i ? 'selected' : '' }}>{{ $i }}+
-                                                Beds</option>
-                                        @endfor
-                                    </select>
-                                </div>
-                                <div class="col-lg-3 col-md-6">
-                                    <label class="filter-label"><i class="bi bi-droplet-fill me-1 text-blue"></i>
-                                        Bathrooms</label>
-                                    <select name="bathrooms" class="form-select premium-select py-3">
-                                        <option value="">Any Baths</option>
-                                        @for($i = 1; $i <= 4; $i++)
-                                            <option value="{{ $i }}" {{ request('bathrooms') == $i ? 'selected' : '' }}>{{ $i }}+
-                                                Baths</option>
-                                        @endfor
-                                    </select>
-                                </div>
-                                <div class="col-lg-2 col-md-12">
-                                    <button type="submit" class="btn btn-custom-pink w-100 fw-800 search-btn-main py-3">
-                                        <i class="bi bi-search me-2"></i> SEARCH
+
+                                <!-- Search Button -->
+                                <div class="col-lg-1">
+                                    <button type="submit" class="premium-search-btn" title="Search Properties">
+                                        <i class="bi bi-search"></i>
                                     </button>
                                 </div>
                             </div>
 
                             @if(request()->anyFilled(['location', 'min_price', 'max_price', 'property_type', 'bedrooms', 'bathrooms']))
-                                <div class="mt-4 d-flex align-items-center justify-content-between border-top pt-3">
-                                    <span class="text-muted small">Showing results for your preferences...</span>
-                                    <a href="{{ route('available-properties.index') }}"
-                                        class="text-pink text-decoration-none small fw-bold hover-underline">
-                                        <i class="bi bi-arrow-counterclockwise me-1"></i> Reset Filters
+                                <div
+                                    class="mt-4 pt-4 border-top d-flex flex-wrap align-items-center justify-content-between gap-3">
+                                    <div class="applied-filters d-flex flex-wrap gap-2">
+                                        @if(request('location')) <span class="badge-premium">{{ request('location') }}</span>
+                                        @endif
+                                        @if(request('property_type')) <span class="badge-premium">Type:
+                                        {{ $propertyTypes->find(request('property_type'))->name ?? '' }}</span> @endif
+                                        @if(request('bedrooms')) <span class="badge-premium">{{ request('bedrooms') }}+
+                                        Beds</span> @endif
+                                    </div>
+                                    <a href="{{ route('available-properties.index') }}" class="reset-link">
+                                        <i class="bi bi-trash3 me-1"></i> Clear Filters
                                     </a>
                                 </div>
                             @endif
@@ -122,6 +129,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </section>
 
@@ -360,105 +368,151 @@
             border-radius: 2rem !important;
         }
 
+        /* Redesigned Filter Styles */
+        .filter-wrapper {
+            transition: all 0.4s ease;
+            backdrop-filter: blur(10px);
+        }
+
         .filter-label {
-            font-size: 0.7rem;
-            color: #1E4072;
-            letter-spacing: 1px;
+            font-size: 0.65rem;
+            color: #64748b;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
-            font-weight: 800;
-            margin-bottom: 12px;
+            font-weight: 700;
+            margin-bottom: 10px;
             display: block;
         }
 
-        .premium-input-group {
-            border-radius: 15px;
-            overflow: hidden;
+        .premium-field-group {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: #f8fafc;
             border: 1px solid #e2e8f0;
-            background: white;
+            border-radius: 12px;
+            padding: 2px;
             transition: all 0.3s ease;
         }
 
-        .premium-input-group:focus-within {
-            border-color: var(--primary-pink);
-            box-shadow: 0 0 0 4px rgba(249, 92, 168, 0.1) !important;
+        .premium-field-group:focus-within {
+            border-color: #F95CA8;
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(249, 92, 168, 0.1);
         }
 
-        .premium-input-group .input-group-text {
-            background-color: transparent;
+        .premium-input {
             border: none;
-            color: #64748b;
-            padding-left: 20px;
-        }
-
-        .premium-input-group .form-control {
-            border: none;
-            font-weight: 500;
-            box-shadow: none !important;
-            height: 55px !important;
-        }
-
-        .radius-select {
-            border: none !important;
-            background-color: #ffffff !important;
-            max-width: 120px;
-            font-weight: 700;
-            color: var(--primary-blue);
-            border-left: 1px solid #e2e8f0 !important;
-        }
-
-        .premium-select {
-            height: 55px !important;
-            border-radius: 15px !important;
-            border: 1px solid #e2e8f0 !important;
-            background-color: #ffffff !important;
+            background: transparent;
+            padding: 12px 15px;
             font-weight: 600;
-            color: var(--primary-blue);
+            color: #1E4072;
+            font-size: 0.95rem;
+            outline: none;
         }
 
-        .search-btn-main {
-            background: linear-gradient(135deg, var(--primary-pink) 0%, #ff89c1 100%);
+        .premium-input-small {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 12px 15px;
+            font-weight: 600;
+            color: #1E4072;
+            width: 100%;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .premium-input-small:focus {
+            border-color: #F95CA8;
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(249, 92, 168, 0.1);
+        }
+
+        .radius-select-floating {
             border: none;
-            box-shadow: 0 10px 20px rgba(249, 92, 168, 0.3);
-            font-size: 1rem;
+            background: #fff;
+            padding: 8px 12px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #1E4072;
+            cursor: pointer;
+            margin-right: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .premium-select-v2 {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 14px 15px;
+            font-weight: 600;
+            color: #1E4072;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            outline: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%231E4072' class='bi bi-chevron-down' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+        }
+
+        .premium-select-v2:focus {
+            border-color: #F95CA8;
+            background-color: #fff;
+            box-shadow: 0 0 0 4px rgba(249, 92, 168, 0.1);
+        }
+
+        .premium-search-btn {
+            background: #F95CA8;
             color: white !important;
-            border-radius: 15px !important;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            letter-spacing: 1px;
-            height: 55px !important;
+            border: none;
+            border-radius: 12px;
+            width: 100%;
+            height: 56px;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 1.2rem;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 15px -3px rgba(249, 92, 168, 0.4);
         }
 
-        .search-btn-main:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(249, 92, 168, 0.4);
-            background: linear-gradient(135deg, #ff89c1 0%, var(--primary-pink) 100%);
+        .premium-search-btn:hover {
+            background: #e04a92;
+            transform: scale(1.05);
+            box-shadow: 0 15px 20px -5px rgba(249, 92, 168, 0.5);
         }
 
-        .available-properties-hero .container {
-            z-index: 2;
+        .badge-premium {
+            background: rgba(30, 64, 114, 0.05);
+            color: #1E4072;
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            border: 1px solid rgba(30, 64, 114, 0.1);
         }
 
-        @media (min-width: 992px) {
-            .border-bottom-lg {
-                border-bottom: 1px solid #f1f5f9 !important;
-            }
+        .reset-link {
+            color: #64748b;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .reset-link:hover {
+            color: #F95CA8;
         }
 
         @media (max-width: 991px) {
-            .available-properties-hero {
-                min-height: auto;
-                padding-bottom: 80px !important;
+            .premium-search-btn {
+                margin-top: 10px;
             }
-
-            .filter-container {
-                margin-top: 20px;
-            }
-        }
-
-        .hover-underline:hover {
-            text-decoration: underline !important;
         }
 
         .bg-gradient-dark {
